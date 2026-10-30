@@ -1,0 +1,410 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Posondo Ghor | Admin Dashboard</title>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background: #172554;
+    color: white;
+    padding: 25px 15px;
+    flex-shrink: 0;
+}
+
+.brand {
+    font-size: 21px;
+    font-weight: bold;
+    padding: 10px;
+    margin-bottom: 35px;
+}
+
+.menu-title {
+    color: #94a3b8;
+    font-size: 12px;
+    padding: 10px;
+    text-transform: uppercase;
+}
+
+.menu a {
+    display: block;
+    color: #cbd5e1;
+    text-decoration: none;
+    padding: 13px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.menu a:hover,
+.menu a.active {
+    background: #2563eb;
+    color: white;
+}
+
+.main {
+    flex: 1;
+    min-width: 0;
+}
+
+.topbar {
+    background: white;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+.topbar h2 {
+    font-size: 21px;
+}
+
+.admin-label {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.content {
+    padding: 30px;
+}
+
+.welcome {
+    margin-bottom: 25px;
+}
+
+.welcome h2 {
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.04);
+}
+
+.stat-card p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.stat-card h3 {
+    font-size: 30px;
+    color: #172554;
+}
+
+.panel {
+    background: white;
+    margin-top: 25px;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.04);
+}
+
+.panel h3 {
+    margin-bottom: 12px;
+}
+
+.panel p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.status {
+    margin-top: 15px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.logout {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 10px 17px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.logout:hover {
+    background: #b91c1c;
+}
+
+.loading {
+    color: #2563eb;
+}
+
+@media(max-width: 750px) {
+    .layout {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .brand {
+        margin-bottom: 10px;
+    }
+
+    .menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .menu-title {
+        display: none;
+    }
+
+    .menu a {
+        padding: 10px;
+        margin: 0;
+    }
+
+    .content {
+        padding: 18px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+
+        <div class="brand">POSONDO GHOR</div>
+
+        <div class="menu-title">Main Menu</div>
+
+        <nav class="menu">
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="#products">Products</a>
+            <a href="#orders">Orders</a>
+            <a href="#customers">Customers</a>
+            <a href="#categories">Categories</a>
+            <a href="#settings">Settings</a>
+        </nav>
+
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <h2>Admin Dashboard</h2>
+                <p class="admin-label">Posondo Ghor Administration</p>
+            </div>
+
+            <button class="logout" id="logoutBtn">Logout</button>
+        </header>
+
+        <section class="content">
+
+            <div class="welcome">
+                <h2>Welcome to Dashboard!</h2>
+                <p>Manage your online store from one place.</p>
+            </div>
+
+            <div class="stats">
+
+                <div class="stat-card">
+                    <p>Total Products</p>
+                    <h3 id="totalProducts" class="loading">...</h3>
+                </div>
+
+                <div class="stat-card">
+                    <p>Total Orders</p>
+                    <h3 id="totalOrders" class="loading">...</h3>
+                </div>
+
+                <div class="stat-card">
+                    <p>Total Customers</p>
+                    <h3 id="totalCustomers" class="loading">...</h3>
+                </div>
+
+            </div>
+
+            <div class="panel">
+                <h3>Store Overview</h3>
+                <p>
+                    Welcome to your Posondo Ghor Admin Panel.
+                    You can manage products, orders, customers
+                    and store settings from this dashboard.
+                </p>
+
+                <div class="status" id="dbStatus">
+                    Connecting to Firebase...
+                </div>
+            </div>
+
+            <div class="panel" id="products">
+                <h3>Products Management</h3>
+                <p>Product upload, editing and deletion will be added in the next step.</p>
+            </div>
+
+            <div class="panel" id="orders">
+                <h3>Orders Management</h3>
+                <p>Your order management section will be added in the next step.</p>
+            </div>
+
+            <div class="panel" id="customers">
+                <h3>Customers</h3>
+                <p>Your customer management section will be added in the next step.</p>
+            </div>
+
+            <div class="panel" id="categories">
+                <h3>Categories</h3>
+                <p>Category management will be added in the next step.</p>
+            </div>
+
+            <div class="panel" id="settings">
+                <h3>Settings</h3>
+                <p>Store settings will be added in the next step.</p>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script>
+
+// Firebase Configuration
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAitvla6I6Ch2ec4iiUEaqW4_5sWkZQVpU",
+    authDomain: "posondo-ghor-admin.firebaseapp.com",
+    projectId: "posondo-ghor-admin",
+    storageBucket: "posondo-ghor-admin.firebasestorage.app",
+    messagingSenderId: "434962480525",
+    appId: "1:434962480525:web:60c07fb54223eaefa251c4",
+    measurementId: "G-NTKSZ5TTDW"
+};
+
+const ADMIN_UID = "Ke33F93Pz0UzfJiFLOKo24yde623";
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+const dbStatus = document.getElementById("dbStatus");
+
+function showCount(id, value) {
+    document.getElementById(id).textContent = value;
+}
+
+async function loadDashboard() {
+
+    try {
+
+        const products = await db.collection("products").get();
+        showCount("totalProducts", products.size);
+
+        const orders = await db.collection("orders").get();
+        showCount("totalOrders", orders.size);
+
+        const customers = await db.collection("customers").get();
+        showCount("totalCustomers", customers.size);
+
+        dbStatus.textContent = "Firebase connected successfully.";
+
+    } catch(error) {
+
+        dbStatus.textContent =
+            "Data loading error: " + error.message;
+
+        console.error(error);
+
+    }
+
+}
+
+// Check Admin Login
+
+auth.onAuthStateChanged(async function(user) {
+
+    if (!user) {
+        window.location.replace("index.html");
+        return;
+    }
+
+    if (user.uid !== ADMIN_UID) {
+        await auth.signOut();
+        window.location.replace("index.html");
+        return;
+    }
+
+    await loadDashboard();
+
+});
+
+// Logout
+
+document.getElementById("logoutBtn").addEventListener("click", async function() {
+
+    try {
+        await auth.signOut();
+        window.location.replace("index.html");
+    } catch(error) {
+        alert("Logout failed: " + error.message);
+    }
+
+});
+
+</script>
+
+</body>
+</html>
