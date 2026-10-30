@@ -4,325 +4,320 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Posondo Ghor | Admin Dashboard</title>
+<title>Posondo Ghor | Admin Panel</title>
 
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background: #f1f5f9;
-    color: #1e293b;
-}
-
-.layout {
-    display: flex;
-    min-height: 100vh;
-}
-
-.sidebar {
-    width: 250px;
-    background: #172554;
-    color: white;
-    padding: 25px 15px;
-    flex-shrink: 0;
-}
-
-.brand {
-    font-size: 21px;
-    font-weight: bold;
-    padding: 10px;
-    margin-bottom: 35px;
-}
-
-.menu-title {
-    color: #94a3b8;
-    font-size: 12px;
-    padding: 10px;
-    text-transform: uppercase;
-}
-
-.menu a {
-    display: block;
-    color: #cbd5e1;
-    text-decoration: none;
-    padding: 13px;
-    border-radius: 8px;
-    margin-bottom: 5px;
-    font-size: 14px;
-}
-
-.menu a:hover,
-.menu a.active {
-    background: #2563eb;
-    color: white;
-}
-
-.main {
-    flex: 1;
-    min-width: 0;
-}
-
-.topbar {
-    background: white;
-    padding: 20px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-}
-
-.topbar h2 {
-    font-size: 21px;
-}
-
-.admin-label {
-    color: #64748b;
-    font-size: 13px;
-}
-
-.content {
-    padding: 30px;
-}
-
-.welcome {
-    margin-bottom: 25px;
-}
-
-.welcome h2 {
-    font-size: 25px;
-    margin-bottom: 8px;
-}
-
-.welcome p {
-    color: #64748b;
-    font-size: 14px;
-}
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.stat-card {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.04);
-}
-
-.stat-card p {
-    color: #64748b;
-    font-size: 14px;
-    margin-bottom: 15px;
-}
-
-.stat-card h3 {
-    font-size: 30px;
-    color: #172554;
-}
-
-.panel {
-    background: white;
-    margin-top: 25px;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.04);
-}
-
-.panel h3 {
-    margin-bottom: 12px;
-}
-
-.panel p {
-    color: #64748b;
-    font-size: 14px;
-    line-height: 1.7;
-}
-
-.status {
-    margin-top: 15px;
-    color: #64748b;
-    font-size: 13px;
-}
-
-.logout {
-    background: #dc2626;
-    color: white;
-    border: none;
-    padding: 10px 17px;
-    border-radius: 7px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.logout:hover {
-    background: #b91c1c;
-}
-
-.loading {
-    color: #2563eb;
-}
-
-@media(max-width: 750px) {
-    .layout {
-        display: block;
-    }
-
-    .sidebar {
-        width: 100%;
-        padding: 15px;
-    }
-
-    .brand {
-        margin-bottom: 10px;
-    }
-
-    .menu {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
-    }
-
-    .menu-title {
-        display: none;
-    }
-
-    .menu a {
-        padding: 10px;
-        margin: 0;
-    }
-
-    .content {
-        padding: 18px;
-    }
-
-    .stats {
-        grid-template-columns: 1fr;
-    }
-
-    .topbar {
-        padding: 15px;
-    }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#f1f5f9;color:#1e293b}
+button,input,select,textarea{font:inherit}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:245px;background:#172554;color:white;padding:24px 15px;flex-shrink:0}
+.brand{font-size:21px;font-weight:bold;padding:10px;margin-bottom:30px}
+.menu-title{font-size:11px;color:#94a3b8;padding:10px;text-transform:uppercase}
+.menu button{display:block;width:100%;text-align:left;border:0;background:none;color:#cbd5e1;padding:13px;border-radius:8px;margin-bottom:5px;cursor:pointer}
+.menu button:hover,.menu button.active{background:#2563eb;color:white}
+.main{flex:1;min-width:0}
+.topbar{background:white;padding:18px 25px;display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 2px 10px #00000008}
+.topbar h2{font-size:20px}
+.admin-label{font-size:12px;color:#64748b;margin-top:5px}
+.logout{background:#dc2626;color:white;border:0;padding:10px 15px;border-radius:7px;cursor:pointer}
+.content{padding:25px}
+.page{display:none}
+.page.active{display:block}
+.page-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.page-heading h2{font-size:23px}
+.muted{color:#64748b;font-size:13px;margin-top:6px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:22px}
+.stat-card,.panel{background:white;padding:22px;border-radius:12px;box-shadow:0 3px 15px #00000006}
+.stat-card p{font-size:14px;color:#64748b;margin-bottom:12px}
+.stat-card h3{font-size:28px;color:#172554}
+.panel{margin-bottom:20px}
+.panel h3{margin-bottom:18px}
+.btn{border:0;border-radius:7px;padding:11px 16px;cursor:pointer;font-weight:bold}
+.btn-primary{background:#1d4ed8;color:white}
+.btn-primary:hover{background:#1e40af}
+.btn-secondary{background:#e2e8f0;color:#1e293b}
+.btn-danger{background:#fee2e2;color:#b91c1c}
+.btn-small{padding:7px 10px;font-size:12px}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:bold;margin-bottom:8px;color:#334155}
+.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:7px;background:white;outline:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#2563eb}
+.field textarea{min-height:110px;resize:vertical}
+.full{grid-column:1/-1}
+.image-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.image-item{border:1px solid #e2e8f0;border-radius:9px;padding:12px}
+.image-item label{font-size:13px;font-weight:bold;display:block;margin-bottom:8px}
+.image-item input{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:6px}
+.image-preview{width:100%;height:125px;object-fit:contain;background:#f8fafc;border-radius:6px;margin-top:9px;display:none}
+.form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:650px}
+th,td{text-align:left;padding:13px;border-bottom:1px solid #e2e8f0;font-size:13px}
+th{background:#f8fafc;color:#475569}
+.product-thumb{width:55px;height:55px;object-fit:contain;border-radius:6px;background:#f1f5f9}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.status-active{color:#15803d;background:#dcfce7;padding:5px 8px;border-radius:20px;font-size:11px}
+.status-inactive{color:#b91c1c;background:#fee2e2;padding:5px 8px;border-radius:20px;font-size:11px}
+.message{padding:12px;border-radius:7px;margin-bottom:15px;display:none;font-size:13px}
+.message.error{background:#fee2e2;color:#b91c1c}
+.message.success{background:#dcfce7;color:#166534}
+.empty{text-align:center;color:#64748b;padding:25px}
+.category-list{display:grid;gap:10px}
+.category-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px;border:1px solid #e2e8f0;border-radius:8px}
+#loadingScreen{text-align:center;padding:70px 20px;color:#64748b}
+@media(max-width:800px){
+ .layout{display:block}
+ .sidebar{width:100%;padding:14px}
+ .brand{margin-bottom:10px}
+ .menu{display:flex;flex-wrap:wrap;gap:5px}
+ .menu-title{display:none}
+ .menu button{width:auto;padding:10px;margin:0}
+ .content{padding:15px}
+ .stats{grid-template-columns:1fr}
+ .form-grid,.image-grid{grid-template-columns:1fr}
+ .topbar{padding:14px}
 }
 </style>
 </head>
 
 <body>
 
-<div class="layout">
+<div id="loadingScreen">Checking admin login...</div>
 
-    <aside class="sidebar">
+<div class="layout" id="app" style="display:none">
 
-        <div class="brand">POSONDO GHOR</div>
+<aside class="sidebar">
+    <div class="brand">POSONDO GHOR</div>
+    <div class="menu-title">Main Menu</div>
+    <nav class="menu">
+        <button class="active" data-page="dashboard">Dashboard</button>
+        <button data-page="products">All Products</button>
+        <button data-page="addProduct">Add Product</button>
+        <button data-page="categories">Categories</button>
+    </nav>
+</aside>
 
-        <div class="menu-title">Main Menu</div>
+<main class="main">
 
-        <nav class="menu">
-            <a href="dashboard.html" class="active">Dashboard</a>
-            <a href="#products">Products</a>
-            <a href="#orders">Orders</a>
-            <a href="#customers">Customers</a>
-            <a href="#categories">Categories</a>
-            <a href="#settings">Settings</a>
-        </nav>
+<header class="topbar">
+    <div>
+        <h2 id="topTitle">Dashboard</h2>
+        <p class="admin-label">Posondo Ghor Administration</p>
+    </div>
+    <button class="logout" id="logoutBtn">Logout</button>
+</header>
 
-    </aside>
+<div class="content">
 
-    <main class="main">
+<!-- DASHBOARD -->
+<section class="page active" id="dashboard">
+    <div class="page-heading">
+        <div>
+            <h2>Welcome to Dashboard!</h2>
+            <p class="muted">Your store overview</p>
+        </div>
+    </div>
 
-        <header class="topbar">
-            <div>
-                <h2>Admin Dashboard</h2>
-                <p class="admin-label">Posondo Ghor Administration</p>
-            </div>
+    <div class="stats">
+        <div class="stat-card">
+            <p>Total Products</p>
+            <h3 id="totalProducts">0</h3>
+        </div>
+        <div class="stat-card">
+            <p>Total Orders</p>
+            <h3 id="totalOrders">0</h3>
+        </div>
+        <div class="stat-card">
+            <p>Total Customers</p>
+            <h3 id="totalCustomers">0</h3>
+        </div>
+    </div>
 
-            <button class="logout" id="logoutBtn">Logout</button>
-        </header>
+    <div class="panel">
+        <h3>Store Information</h3>
+        <p class="muted" id="connectionStatus">Loading Firebase data...</p>
+    </div>
+</section>
 
-        <section class="content">
+<!-- ADD / EDIT PRODUCT -->
+<section class="page" id="addProduct">
+    <div class="page-heading">
+        <div>
+            <h2 id="productFormTitle">Add New Product</h2>
+            <p class="muted">Enter product information and image links.</p>
+        </div>
+    </div>
 
-            <div class="welcome">
-                <h2>Welcome to Dashboard!</h2>
-                <p>Manage your online store from one place.</p>
-            </div>
+    <div class="panel">
+        <div id="productMessage" class="message"></div>
 
-            <div class="stats">
+        <form id="productForm">
+            <input type="hidden" id="editProductId">
 
-                <div class="stat-card">
-                    <p>Total Products</p>
-                    <h3 id="totalProducts" class="loading">...</h3>
+            <div class="form-grid">
+                <div class="field">
+                    <label for="productName">Product Name *</label>
+                    <input id="productName" required placeholder="Enter product name">
                 </div>
 
-                <div class="stat-card">
-                    <p>Total Orders</p>
-                    <h3 id="totalOrders" class="loading">...</h3>
+                <div class="field">
+                    <label for="productCategory">Product Category *</label>
+                    <select id="productCategory" required>
+                        <option value="">Select Category</option>
+                    </select>
                 </div>
 
-                <div class="stat-card">
-                    <p>Total Customers</p>
-                    <h3 id="totalCustomers" class="loading">...</h3>
+                <div class="field">
+                    <label for="regularPrice">Regular Price (৳) *</label>
+                    <input type="number" id="regularPrice" min="0" step="0.01" required>
                 </div>
 
-            </div>
+                <div class="field">
+                    <label for="salePrice">Sale Price (৳)</label>
+                    <input type="number" id="salePrice" min="0" step="0.01" placeholder="Optional">
+                </div>
 
-            <div class="panel">
-                <h3>Store Overview</h3>
-                <p>
-                    Welcome to your Posondo Ghor Admin Panel.
-                    You can manage products, orders, customers
-                    and store settings from this dashboard.
-                </p>
+                <div class="field">
+                    <label for="stockQuantity">Stock Quantity *</label>
+                    <input type="number" id="stockQuantity" min="0" step="1" required value="1">
+                </div>
 
-                <div class="status" id="dbStatus">
-                    Connecting to Firebase...
+                <div class="field">
+                    <label for="productStatus">Product Status *</label>
+                    <select id="productStatus" required>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div class="field full">
+                    <label>Product Images (Minimum 4) *</label>
+                    <p class="muted" style="margin-bottom:12px">
+                        চারটি ছবির সরাসরি URL দিতে হবে। প্রতিটি ছবির লিংক পরীক্ষা করে নিন।
+                    </p>
+
+                    <div class="image-grid">
+                        <div class="image-item">
+                            <label>Image 1 (Main Image) *</label>
+                            <input type="url" class="image-url" required placeholder="https://example.com/image1.jpg">
+                            <img class="image-preview" alt="Image 1 preview">
+                        </div>
+                        <div class="image-item">
+                            <label>Image 2 *</label>
+                            <input type="url" class="image-url" required placeholder="https://example.com/image2.jpg">
+                            <img class="image-preview" alt="Image 2 preview">
+                        </div>
+                        <div class="image-item">
+                            <label>Image 3 *</label>
+                            <input type="url" class="image-url" required placeholder="https://example.com/image3.jpg">
+                            <img class="image-preview" alt="Image 3 preview">
+                        </div>
+                        <div class="image-item">
+                            <label>Image 4 *</label>
+                            <input type="url" class="image-url" required placeholder="https://example.com/image4.jpg">
+                            <img class="image-preview" alt="Image 4 preview">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field full">
+                    <label for="productDescription">Product Description *</label>
+                    <textarea id="productDescription" required placeholder="Write product details..."></textarea>
                 </div>
             </div>
 
-            <div class="panel" id="products">
-                <h3>Products Management</h3>
-                <p>Product upload, editing and deletion will be added in the next step.</p>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="saveProductBtn">Save Product</button>
+                <button type="button" class="btn btn-secondary" id="cancelEditBtn">Cancel</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- ALL PRODUCTS -->
+<section class="page" id="products">
+    <div class="page-heading">
+        <div>
+            <h2>All Products</h2>
+            <p class="muted">View, edit and delete your products.</p>
+        </div>
+        <button class="btn btn-primary" id="newProductBtn">+ Add Product</button>
+    </div>
+
+    <div class="panel">
+        <div class="field">
+            <input type="search" id="productSearch" placeholder="Search products by name or category...">
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="productTable">
+                    <tr><td colspan="7" class="empty">Loading products...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="page" id="categories">
+    <div class="page-heading">
+        <div>
+            <h2>Category Management</h2>
+            <p class="muted">Create and manage product categories.</p>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h3 id="categoryFormTitle">Add New Category</h3>
+        <div id="categoryMessage" class="message"></div>
+
+        <form id="categoryForm">
+            <input type="hidden" id="editCategoryId">
+
+            <div class="field">
+                <label for="categoryName">Category Name *</label>
+                <input id="categoryName" required maxlength="60"
+                       placeholder="Example: Men's Fashion">
             </div>
 
-            <div class="panel" id="orders">
-                <h3>Orders Management</h3>
-                <p>Your order management section will be added in the next step.</p>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit" id="saveCategoryBtn">Save Category</button>
+                <button class="btn btn-secondary" type="button" id="cancelCategoryBtn">Cancel</button>
             </div>
+        </form>
+    </div>
 
-            <div class="panel" id="customers">
-                <h3>Customers</h3>
-                <p>Your customer management section will be added in the next step.</p>
-            </div>
+    <div class="panel">
+        <h3>All Categories</h3>
+        <div id="categoryList" class="category-list">
+            <p class="empty">Loading categories...</p>
+        </div>
+    </div>
+</section>
 
-            <div class="panel" id="categories">
-                <h3>Categories</h3>
-                <p>Category management will be added in the next step.</p>
-            </div>
-
-            <div class="panel" id="settings">
-                <h3>Settings</h3>
-                <p>Store settings will be added in the next step.</p>
-            </div>
-
-        </section>
-
-    </main>
-
+</div>
+</main>
 </div>
 
 <script>
-
-// Firebase Configuration
-
 const firebaseConfig = {
     apiKey: "AIzaSyAitvla6I6Ch2ec4iiUEaqW4_5sWkZQVpU",
     authDomain: "posondo-ghor-admin.firebaseapp.com",
@@ -340,42 +335,88 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-const dbStatus = document.getElementById("dbStatus");
+let allProducts = [];
+let allCategories = [];
 
-function showCount(id, value) {
-    document.getElementById(id).textContent = value;
+const $ = id => document.getElementById(id);
+
+function showMessage(id, text, type) {
+    const box = $(id);
+    box.textContent = text;
+    box.className = "message " + type;
+    box.style.display = "block";
 }
 
-async function loadDashboard() {
-
-    try {
-
-        const products = await db.collection("products").get();
-        showCount("totalProducts", products.size);
-
-        const orders = await db.collection("orders").get();
-        showCount("totalOrders", orders.size);
-
-        const customers = await db.collection("customers").get();
-        showCount("totalCustomers", customers.size);
-
-        dbStatus.textContent = "Firebase connected successfully.";
-
-    } catch(error) {
-
-        dbStatus.textContent =
-            "Data loading error: " + error.message;
-
-        console.error(error);
-
-    }
-
+function hideMessage(id) {
+    $(id).style.display = "none";
 }
 
-// Check Admin Login
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+    })[char]);
+}
 
-auth.onAuthStateChanged(async function(user) {
+function showPage(pageId) {
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.toggle("active", page.id === pageId);
+    });
 
+    document.querySelectorAll(".menu button").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === pageId);
+    });
+
+    const titles = {
+        dashboard: "Dashboard",
+        products: "All Products",
+        addProduct: "Add Product",
+        categories: "Categories"
+    };
+
+    $("topTitle").textContent = titles[pageId] || "Dashboard";
+}
+
+document.querySelectorAll(".menu button").forEach(button => {
+    button.addEventListener("click", () => showPage(button.dataset.page));
+});
+
+$("newProductBtn").addEventListener("click", () => {
+    resetProductForm();
+    showPage("addProduct");
+});
+
+$("cancelEditBtn").addEventListener("click", () => {
+    resetProductForm();
+    showPage("products");
+});
+
+$("cancelCategoryBtn").addEventListener("click", resetCategoryForm);
+
+// IMAGE PREVIEW
+document.querySelectorAll(".image-url").forEach(input => {
+    input.addEventListener("input", function() {
+        const preview = this.parentElement.querySelector(".image-preview");
+        const url = this.value.trim();
+
+        if (url) {
+            preview.src = url;
+            preview.style.display = "block";
+            preview.onerror = () => {
+                preview.style.display = "none";
+            };
+        } else {
+            preview.style.display = "none";
+            preview.removeAttribute("src");
+        }
+    });
+});
+
+// AUTHENTICATION
+auth.onAuthStateChanged(async user => {
     if (!user) {
         window.location.replace("index.html");
         return;
@@ -387,24 +428,420 @@ auth.onAuthStateChanged(async function(user) {
         return;
     }
 
-    await loadDashboard();
+    $("loadingScreen").style.display = "none";
+    $("app").style.display = "flex";
 
+    await refreshAll();
 });
 
-// Logout
+$("logoutBtn").addEventListener("click", async () => {
+    await auth.signOut();
+    window.location.replace("index.html");
+});
 
-document.getElementById("logoutBtn").addEventListener("click", async function() {
-
+// LOAD DATA
+async function refreshAll() {
     try {
-        await auth.signOut();
-        window.location.replace("index.html");
+        await Promise.all([
+            loadProducts(),
+            loadCategories(),
+            loadDashboardCounts()
+        ]);
+
+        $("connectionStatus").textContent =
+            "Firebase connected successfully.";
     } catch(error) {
-        alert("Logout failed: " + error.message);
+        $("connectionStatus").textContent =
+            "Firebase error: " + error.message;
+        console.error(error);
+    }
+}
+
+async function loadDashboardCounts() {
+    const results = await Promise.all([
+        db.collection("products").get(),
+        db.collection("orders").get(),
+        db.collection("customers").get()
+    ]);
+
+    $("totalProducts").textContent = results[0].size;
+    $("totalOrders").textContent = results[1].size;
+    $("totalCustomers").textContent = results[2].size;
+}
+
+// CATEGORIES
+async function loadCategories() {
+    const snapshot = await db.collection("categories").get();
+
+    allCategories = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }));
+
+    allCategories.sort((a,b) =>
+        String(a.name || "").localeCompare(String(b.name || ""))
+    );
+
+    renderCategories();
+    updateCategoryDropdown();
+}
+
+function renderCategories() {
+    const list = $("categoryList");
+
+    if (!allCategories.length) {
+        list.innerHTML = '<p class="empty">No categories yet. Add your first category above.</p>';
+        return;
     }
 
+    list.innerHTML = allCategories.map(category => `
+        <div class="category-row">
+            <strong>${escapeHTML(category.name)}</strong>
+            <div class="actions">
+                <button class="btn btn-secondary btn-small"
+                    onclick="editCategory('${category.id}')">Edit</button>
+                <button class="btn btn-danger btn-small"
+                    onclick="deleteCategory('${category.id}')">Delete</button>
+            </div>
+        </div>
+    `).join("");
+}
+
+function updateCategoryDropdown(selected = "") {
+    const select = $("productCategory");
+
+    select.innerHTML =
+        '<option value="">Select Category</option>' +
+        allCategories.map(category => `
+            <option value="${escapeHTML(category.name)}"
+                ${category.name === selected ? "selected" : ""}>
+                ${escapeHTML(category.name)}
+            </option>
+        `).join("");
+}
+
+$("categoryForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const name = $("categoryName").value.trim();
+    const editId = $("editCategoryId").value;
+
+    if (!name) return;
+
+    try {
+        const duplicate = allCategories.some(category =>
+            category.name.toLowerCase() === name.toLowerCase() &&
+            category.id !== editId
+        );
+
+        if (duplicate) {
+            showMessage("categoryMessage", "This category already exists.", "error");
+            return;
+        }
+
+        $("saveCategoryBtn").disabled = true;
+
+        if (editId) {
+            await db.collection("categories").doc(editId).update({
+                name,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            // Update category names on products that used the old name.
+            const oldCategory = allCategories.find(c => c.id === editId);
+            if (oldCategory && oldCategory.name !== name) {
+                const matching = await db.collection("products")
+                    .where("category", "==", oldCategory.name).get();
+
+                const batch = db.batch();
+                matching.docs.forEach(doc => {
+                    batch.update(doc.ref, {category: name});
+                });
+                await batch.commit();
+            }
+
+            showMessage("categoryMessage", "Category updated successfully.", "success");
+        } else {
+            await db.collection("categories").add({
+                name,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            showMessage("categoryMessage", "Category added successfully.", "success");
+        }
+
+        resetCategoryForm();
+        await loadCategories();
+        await loadProducts();
+
+    } catch(error) {
+        showMessage("categoryMessage", error.message, "error");
+    } finally {
+        $("saveCategoryBtn").disabled = false;
+    }
 });
 
-</script>
+function editCategory(id) {
+    const category = allCategories.find(c => c.id === id);
+    if (!category) return;
 
+    $("editCategoryId").value = id;
+    $("categoryName").value = category.name;
+    $("categoryFormTitle").textContent = "Edit Category";
+    $("saveCategoryBtn").textContent = "Update Category";
+
+    hideMessage("categoryMessage");
+    showPage("categories");
+    $("categoryName").focus();
+}
+
+function resetCategoryForm() {
+    $("categoryForm").reset();
+    $("editCategoryId").value = "";
+    $("categoryFormTitle").textContent = "Add New Category";
+    $("saveCategoryBtn").textContent = "Save Category";
+}
+
+async function deleteCategory(id) {
+    const category = allCategories.find(c => c.id === id);
+    if (!category) return;
+
+    const linkedProducts = allProducts.filter(p => p.category === category.name);
+
+    if (linkedProducts.length) {
+        alert("এই Category-তে " + linkedProducts.length +
+            "টি পণ্য আছে। আগে পণ্যগুলোর Category পরিবর্তন করুন।");
+        return;
+    }
+
+    if (!confirm("Delete category: " + category.name + "?")) return;
+
+    try {
+        await db.collection("categories").doc(id).delete();
+        await loadCategories();
+        showMessage("categoryMessage", "Category deleted.", "success");
+    } catch(error) {
+        alert("Delete failed: " + error.message);
+    }
+}
+
+// PRODUCTS
+async function loadProducts() {
+    const snapshot = await db.collection("products").get();
+
+    allProducts = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }));
+
+    renderProducts();
+}
+
+function renderProducts(search = "") {
+    const tbody = $("productTable");
+
+    const filtered = allProducts.filter(product => {
+        const text = (product.name || "") + " " + (product.category || "");
+        return text.toLowerCase().includes(search.toLowerCase());
+    });
+
+    if (!filtered.length) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty">No products found.</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = filtered.map(product => {
+        const images = Array.isArray(product.images) ? product.images : [];
+        const mainImage = images[0] || "";
+        const price = product.salePrice !== null &&
+            product.salePrice !== undefined &&
+            product.salePrice !== ""
+            ? product.salePrice : product.regularPrice;
+
+        return `
+        <tr>
+            <td>
+                <img class="product-thumb"
+                    src="${escapeHTML(mainImage)}"
+                    alt="Product"
+                    onerror="this.style.visibility='hidden'">
+            </td>
+            <td>${escapeHTML(product.name)}</td>
+            <td>${escapeHTML(product.category)}</td>
+            <td>৳${escapeHTML(price)}</td>
+            <td>${escapeHTML(product.stock)}</td>
+            <td>
+                <span class="${product.status === "Active" ? "status-active" : "status-inactive"}">
+                    ${escapeHTML(product.status)}
+                </span>
+            </td>
+            <td>
+                <div class="actions">
+                    <button class="btn btn-secondary btn-small"
+                        onclick="editProduct('${product.id}')">Edit</button>
+                    <button class="btn btn-danger btn-small"
+                        onclick="deleteProduct('${product.id}')">Delete</button>
+                </div>
+            </td>
+        </tr>`;
+    }).join("");
+}
+
+$("productSearch").addEventListener("input", event => {
+    renderProducts(event.target.value);
+});
+
+$("productForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const name = $("productName").value.trim();
+    const category = $("productCategory").value;
+    const regularPrice = Number($("regularPrice").value);
+    const saleInput = $("salePrice").value;
+    const salePrice = saleInput === "" ? null : Number(saleInput);
+    const stock = Number($("stockQuantity").value);
+    const status = $("productStatus").value;
+    const description = $("productDescription").value.trim();
+    const editId = $("editProductId").value;
+
+    const images = Array.from(document.querySelectorAll(".image-url"))
+        .map(input => input.value.trim());
+
+    if (images.length !== 4 || images.some(url => !url)) {
+        showMessage("productMessage", "Please enter all 4 image URLs.", "error");
+        return;
+    }
+
+    if (images.some(url => {
+        try {
+            const parsed = new URL(url);
+            return parsed.protocol !== "https:" && parsed.protocol !== "http:";
+        } catch {
+            return true;
+        }
+    })) {
+        showMessage("productMessage", "Please enter valid image URLs.", "error");
+        return;
+    }
+
+    if (regularPrice < 0 || (salePrice !== null && salePrice < 0) || stock < 0) {
+        showMessage("productMessage", "Price and stock cannot be negative.", "error");
+        return;
+    }
+
+    if (salePrice !== null && salePrice > regularPrice) {
+        showMessage("productMessage", "Sale price should not exceed regular price.", "error");
+        return;
+    }
+
+    const productData = {
+        name,
+        category,
+        regularPrice,
+        salePrice,
+        stock,
+        status,
+        description,
+        images
+    };
+
+    try {
+        $("saveProductBtn").disabled = true;
+        $("saveProductBtn").textContent = "Saving...";
+
+        if (editId) {
+            productData.updatedAt =
+                firebase.firestore.FieldValue.serverTimestamp();
+
+            await db.collection("products").doc(editId).update(productData);
+            showMessage("productMessage", "Product updated successfully!", "success");
+        } else {
+            productData.createdAt =
+                firebase.firestore.FieldValue.serverTimestamp();
+
+            await db.collection("products").add(productData);
+            showMessage("productMessage", "Product added successfully!", "success");
+        }
+
+        await loadProducts();
+        await loadDashboardCounts();
+
+        setTimeout(() => {
+            resetProductForm();
+            showPage("products");
+        }, 900);
+
+    } catch(error) {
+        showMessage("productMessage", error.message, "error");
+    } finally {
+        $("saveProductBtn").disabled = false;
+        $("saveProductBtn").textContent =
+            $("editProductId").value ? "Update Product" : "Save Product";
+    }
+});
+
+function editProduct(id) {
+    const product = allProducts.find(p => p.id === id);
+    if (!product) return;
+
+    $("editProductId").value = id;
+    $("productName").value = product.name || "";
+
+    updateCategoryDropdown(product.category || "");
+
+    $("regularPrice").value = product.regularPrice ?? "";
+    $("salePrice").value = product.salePrice ?? "";
+    $("stockQuantity").value = product.stock ?? 0;
+    $("productStatus").value = product.status || "Active";
+    $("productDescription").value = product.description || "";
+
+    const images = Array.isArray(product.images) ? product.images : [];
+
+    document.querySelectorAll(".image-url").forEach((input, index) => {
+        input.value = images[index] || "";
+        input.dispatchEvent(new Event("input"));
+    });
+
+    $("productFormTitle").textContent = "Edit Product";
+    $("saveProductBtn").textContent = "Update Product";
+
+    hideMessage("productMessage");
+    showPage("addProduct");
+}
+
+function resetProductForm() {
+    $("productForm").reset();
+    $("editProductId").value = "";
+    $("stockQuantity").value = 1;
+
+    document.querySelectorAll(".image-preview").forEach(img => {
+        img.style.display = "none";
+        img.removeAttribute("src");
+    });
+
+    $("productFormTitle").textContent = "Add New Product";
+    $("saveProductBtn").textContent = "Save Product";
+    hideMessage("productMessage");
+}
+
+async function deleteProduct(id) {
+    const product = allProducts.find(p => p.id === id);
+    if (!product) return;
+
+    if (!confirm("Are you sure you want to delete " + product.name + "?")) return;
+
+    try {
+        await db.collection("products").doc(id).delete();
+
+        await loadProducts();
+        await loadDashboardCounts();
+
+        alert("Product deleted successfully.");
+    } catch(error) {
+        alert("Delete failed: " + error.message);
+    }
+}
+
+</script>
 </body>
 </html>
