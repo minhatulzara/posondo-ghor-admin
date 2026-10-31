@@ -137,7 +137,7 @@
 
 <script>
 const firebaseConfig = {
- apiKey:"AIzaSyAitvla6I6Ch2ec4iiUEaqW4_5sWkZQVpU",
+ apiKey:"AIzaSyAitvla6ICh2ec2iiUEaqW4WkZQVpU",
  authDomain:"posondo-ghor-admin.firebaseapp.com",
  projectId:"posondo-ghor-admin",
  storageBucket:"posondo-ghor-admin.firebasestorage.app",
@@ -161,7 +161,7 @@ async function logout(){await auth.signOut();location.replace("index.html");}
 $("logoutBtn").onclick=logout;$("logoutSide").onclick=logout;
 auth.onAuthStateChanged(async user=>{if(!user){location.replace("index.html");return;}if(user.uid!==ADMIN_UID){await auth.signOut();location.replace("index.html");return;}$("loadingScreen").style.display="none";$("app").style.display="flex";await refreshAll();});
 async function refreshAll(){try{await Promise.all([loadProducts(),loadCategories(),loadOrders(),loadPaymentSettings(),loadStoreSettings()]);await loadDashboard();$("connectionStatus").textContent="Firebase connected successfully.";}catch(e){$("connectionStatus").textContent="Firebase error: "+e.message;console.error(e);}}
-async function loadDashboard(){const [p,o,c]=await Promise.all([db.collection("products").get(),db.collection("orders").get(),db.collection("customers").get()]);$("totalProducts").textContent=p.size;$("totalOrders").textContent=o.size;$("totalCustomers").textContent=c.size;$("pendingOrders").textContent=o.docs.filter(d=>(d.data().status||"Pending")==="Pending").length;const rows=o.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(b.createdAt?.seconds||"").localeCompare(String(a.createdAt?.seconds||""))).slice(0,8);$("recentOrders").innerHTML=rows.length?rows.map(x=>`<tr><td>${esc(x.id.slice(0,8))}</td><td>${esc(x.customerName)}</td><td>${esc(x.phone)}</td><td>৳${money(x.totalAmount)}</td><td>${esc(x.status||"Pending")}</td></tr>`).join(""):'<tr><td colspan="5" class="empty">No orders yet.</td></tr>';}
+async function loadDashboard(){const [p,o]=await Promise.all([db.collection("products").get(),db.collection("orders").get()]);$("totalProducts").textContent=p.size;$("totalOrders").textContent=o.size;const customerKeys=new Set(o.docs.map(d=>{const x=d.data();return x.phone||x.customerName||d.id;}));$("totalCustomers").textContent=customerKeys.size;$("pendingOrders").textContent=o.docs.filter(d=>(d.data().status||"Pending")==="Pending").length;const rows=o.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).slice(0,8);$("recentOrders").innerHTML=rows.length?rows.map(x=>`<tr><td>${esc(x.id.slice(0,8))}</td><td>${esc(x.customerName)}</td><td>${esc(x.phone)}</td><td>৳${money(x.totalAmount)}</td><td>${esc(x.status||"Pending")}</td></tr>`).join(""):'<tr><td colspan="5" class="empty">No orders yet.</td></tr>';}
 async function loadProducts(){const s=await db.collection("products").get();allProducts=s.docs.map(d=>({id:d.id,...d.data()}));renderProducts();}
 async function loadCategories(){const s=await db.collection("categories").get();allCategories=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));renderCategories();updateCategoryDropdown();}
 async function loadOrders(){const s=await db.collection("orders").get();allOrders=s.docs.map(d=>({id:d.id,...d.data()}));allOrders.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));renderOrders();renderCustomers();renderPayments();}
