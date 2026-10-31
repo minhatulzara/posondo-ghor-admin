@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Posondo Ghor | Admin Panel</title>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#f1f5f9;color:#1e293b}button,input,select,textarea{font:inherit}
+.layout{display:flex;min-height:100vh}.sidebar{width:255px;flex-shrink:0;background:#172554;color:#fff;padding:20px 13px;height:100vh;position:sticky;top:0;overflow-y:auto}
+.brand{font-size:20px;font-weight:800;padding:12px 10px 22px}.menu-title{font-size:11px;color:#94a3b8;padding:13px 10px 7px;text-transform:uppercase;letter-spacing:.7px}
+.menu button{display:block;width:100%;border:0;background:none;color:#cbd5e1;text-align:left;padding:10px 12px;border-radius:7px;margin:2px 0;cursor:pointer;font-size:14px}
+.menu button:hover,.menu button.active{background:#2563eb;color:white}.menu .logout-side{color:#fecaca;margin-top:15px}
+.main{flex:1;min-width:0}.topbar{background:#fff;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 2px 10px #0000000d;position:sticky;top:0;z-index:1000}
+.topbar h2{font-size:20px}.admin-label{font-size:12px;color:#64748b;margin-top:5px}.logout{background:#dc2626;color:white;border:0;padding:10px 15px;border-radius:7px;cursor:pointer}
+.content{padding:24px}.page{display:none}.page.active{display:block}.page-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}.page-heading h2{font-size:23px}.muted{color:#64748b;font-size:13px;margin-top:6px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-bottom:20px}.stat-card,.panel{background:#fff;padding:20px;border-radius:11px;box-shadow:0 3px 15px #00000008}.stat-card p{font-size:13px;color:#64748b;margin-bottom:10px}.stat-card h3{font-size:27px;color:#172554}.panel{margin-bottom:18px}.panel h3{margin-bottom:15px}
+.btn{border:0;border-radius:7px;padding:10px 14px;cursor:pointer;font-weight:700}.btn-primary{background:#1d4ed8;color:#fff}.btn-secondary{background:#e2e8f0;color:#1e293b}.btn-danger{background:#fee2e2;color:#b91c1c}.btn-small{padding:6px 9px;font-size:12px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{margin-bottom:14px}.field label{display:block;font-size:13px;font-weight:bold;margin-bottom:7px;color:#334155}.field input,.field select,.field textarea{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:7px;background:#fff;outline:none}.field textarea{min-height:95px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:#2563eb}.full{grid-column:1/-1}
+.image-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.image-item{border:1px solid #e2e8f0;border-radius:8px;padding:10px}.image-item label{display:block;font-weight:bold;font-size:13px;margin-bottom:7px}.image-item input{width:100%;padding:9px;border:1px solid #cbd5e1;border-radius:6px}.image-preview{width:100%;height:110px;object-fit:contain;background:#f8fafc;margin-top:8px;display:none}
+.form-actions,.actions{display:flex;gap:7px;flex-wrap:wrap}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:680px}th,td{text-align:left;padding:11px;border-bottom:1px solid #e2e8f0;font-size:13px;vertical-align:top}th{background:#f8fafc;color:#475569}.product-thumb{width:48px;height:48px;object-fit:contain;background:#f1f5f9;border-radius:5px}
+.message{padding:11px;border-radius:7px;margin-bottom:13px;display:none;font-size:13px}.message.error{display:block;background:#fee2e2;color:#991b1b}.message.success{display:block;background:#dcfce7;color:#166534}.empty{text-align:center;color:#64748b;padding:24px}.category-row,.setting-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:8px}.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#e2e8f0;font-size:11px}.pill.green{background:#dcfce7;color:#166534}.pill.red{background:#fee2e2;color:#991b1b}.inline-check{display:flex;align-items:center;gap:8px;margin:8px 0}.inline-check input{width:auto}
+#loadingScreen{text-align:center;padding:80px 20px;color:#64748b}
+@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.sidebar{width:220px}}
+@media(max-width:700px){.layout{display:block}.sidebar{width:100%;height:auto;position:relative;max-height:none}.brand{padding-bottom:10px}.menu{display:flex;flex-wrap:wrap;gap:3px}.menu-title{display:none}.menu button{width:auto;padding:9px}.content{padding:13px}.topbar{padding:13px}.stats{grid-template-columns:1fr 1fr}.form-grid,.image-grid{grid-template-columns:1fr}.page-heading h2{font-size:20px}}
+</style>
+</head>
+<body>
+<div id="loadingScreen">Admin login যাচাই করা হচ্ছে...</div>
+<div class="layout" id="app" style="display:none">
+<aside class="sidebar">
+  <div class="brand">POSONDO GHOR</div>
+  <nav class="menu">
+    <div class="menu-title">Main Menu</div>
+    <button class="active" data-page="dashboard">Dashboard</button>
+    <div class="menu-title">Product Management</div>
+    <button data-page="products">All Products</button>
+    <button data-page="addProduct">Add Product</button>
+    <button data-page="categories">Categories</button>
+    <div class="menu-title">Order Management</div>
+    <button data-page="orders">All Orders</button>
+    <button data-page="orders" data-filter="Pending">Pending Orders</button>
+    <button data-page="orders" data-filter="Processing">Processing Orders</button>
+    <button data-page="orders" data-filter="Shipped">Shipped Orders</button>
+    <button data-page="orders" data-filter="Completed">Completed Orders</button>
+    <button data-page="orders" data-filter="Cancelled">Cancelled Orders</button>
+    <div class="menu-title">Customer Management</div>
+    <button data-page="customers">All Customers</button>
+    <button data-page="customers">Customer Details</button>
+    <div class="menu-title">Payment Management</div>
+    <button data-page="payments">Payment Settings</button>
+    <button data-page="paymentHistory">Payment History</button>
+    <div class="menu-title">Settings</div>
+    <button data-page="storeSettings">Store Information</button>
+    <button data-page="storeSettings">Contact Information</button>
+    <button data-page="storeSettings">Shipping Settings</button>
+    <button data-page="payments">Payment Settings</button>
+    <button class="logout-side" id="logoutSide">Logout</button>
+  </nav>
+</aside>
+<main class="main">
+<header class="topbar"><div><h2 id="topTitle">Dashboard</h2><p class="admin-label">Posondo Ghor Administration</p></div><button class="logout" id="logoutBtn">Logout</button></header>
+<div class="content">
+
+<section class="page active" id="dashboard">
+ <div class="page-heading"><div><h2>Welcome to Dashboard</h2><p class="muted">আপনার দোকানের সারসংক্ষেপ</p></div></div>
+ <div class="stats">
+  <div class="stat-card"><p>Total Products</p><h3 id="totalProducts">0</h3></div>
+  <div class="stat-card"><p>Total Orders</p><h3 id="totalOrders">0</h3></div>
+  <div class="stat-card"><p>Pending Orders</p><h3 id="pendingOrders">0</h3></div>
+  <div class="stat-card"><p>Total Customers</p><h3 id="totalCustomers">0</h3></div>
+ </div>
+ <div class="panel"><h3>Store Overview</h3><p class="muted" id="connectionStatus">Firebase data loading...</p></div>
+ <div class="panel"><h3>Recent Orders</h3><div class="table-wrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Phone</th><th>Total</th><th>Status</th></tr></thead><tbody id="recentOrders"><tr><td colspan="5" class="empty">Loading...</td></tr></tbody></table></div></div>
+</section>
+
+<section class="page" id="addProduct">
+ <div class="page-heading"><div><h2 id="productFormTitle">Add New Product</h2><p class="muted">পণ্যের তথ্য ও চারটি ছবির URL দিন।</p></div></div>
+ <div class="panel"><div id="productMessage" class="message"></div>
+ <form id="productForm"><input type="hidden" id="editProductId">
+ <div class="form-grid">
+  <div class="field"><label>Product Name *</label><input id="productName" required></div>
+  <div class="field"><label>Category *</label><select id="productCategory" required><option value="">Select Category</option></select></div>
+  <div class="field"><label>Regular Price (৳) *</label><input type="number" id="regularPrice" min="0" step="0.01" required></div>
+  <div class="field"><label>Sale Price (৳)</label><input type="number" id="salePrice" min="0" step="0.01"></div>
+  <div class="field"><label>Stock Quantity *</label><input type="number" id="stockQuantity" min="0" step="1" value="1" required></div>
+  <div class="field"><label>Status</label><select id="productStatus"><option>Active</option><option>Inactive</option></select></div>
+  <div class="field full"><label>Product Images (৪টি URL বাধ্যতামূলক)</label><div class="image-grid">
+   <div class="image-item"><label>Image 1</label><input type="url" class="image-url" required placeholder="https://..."><img class="image-preview" alt=""></div>
+   <div class="image-item"><label>Image 2</label><input type="url" class="image-url" required placeholder="https://..."><img class="image-preview" alt=""></div>
+   <div class="image-item"><label>Image 3</label><input type="url" class="image-url" required placeholder="https://..."><img class="image-preview" alt=""></div>
+   <div class="image-item"><label>Image 4</label><input type="url" class="image-url" required placeholder="https://..."><img class="image-preview" alt=""></div>
+  </div></div>
+  <div class="field full"><label>Description *</label><textarea id="productDescription" required></textarea></div>
+ </div><div class="form-actions"><button class="btn btn-primary" id="saveProductBtn">Save Product</button><button type="button" class="btn btn-secondary" id="cancelEditBtn">Cancel</button></div>
+ </form></div>
+</section>
+
+<section class="page" id="products"><div class="page-heading"><div><h2>All Products</h2><p class="muted">পণ্য দেখুন, সম্পাদনা বা মুছে ফেলুন।</p></div><button class="btn btn-primary" id="newProductBtn">+ Add Product</button></div>
+<div class="panel"><div class="field"><input id="productSearch" type="search" placeholder="পণ্যের নাম বা ক্যাটাগরি দিয়ে খুঁজুন"></div><div class="table-wrap"><table><thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead><tbody id="productTable"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody></table></div></div></section>
+
+<section class="page" id="categories"><div class="page-heading"><div><h2>Category Management</h2><p class="muted">ক্যাটাগরি তৈরি ও পরিচালনা করুন।</p></div></div>
+<div class="panel"><h3 id="categoryFormTitle">Add New Category</h3><div id="categoryMessage" class="message"></div><form id="categoryForm"><input type="hidden" id="editCategoryId"><div class="field"><label>Category Name *</label><input id="categoryName" required maxlength="60"></div><div class="form-actions"><button class="btn btn-primary" id="saveCategoryBtn">Save Category</button><button type="button" class="btn btn-secondary" id="cancelCategoryBtn">Cancel</button></div></form></div>
+<div class="panel"><h3>All Categories</h3><div id="categoryList"><p class="empty">Loading...</p></div></div></section>
+
+<section class="page" id="orders"><div class="page-heading"><div><h2>Order Management</h2><p class="muted">ক্রেতাদের অর্ডার দেখুন এবং স্ট্যাটাস পরিবর্তন করুন।</p></div></div>
+<div class="panel"><div class="field"><input id="orderSearch" type="search" placeholder="অর্ডার ID, নাম বা মোবাইল দিয়ে খুঁজুন"></div><div class="field"><label>Filter by Status</label><select id="orderFilter"><option value="">All Orders</option><option>Pending</option><option>Processing</option><option>Shipped</option><option>Completed</option><option>Cancelled</option></select></div>
+<div class="table-wrap"><table><thead><tr><th>Order ID / Date</th><th>Customer & Address</th><th>Product</th><th>Qty</th><th>Total</th><th>Payment</th><th>Order Status</th><th>Action</th></tr></thead><tbody id="ordersTable"><tr><td colspan="8" class="empty">Loading...</td></tr></tbody></table></div></div></section>
+
+<section class="page" id="customers"><div class="page-heading"><div><h2>Customer Management</h2><p class="muted">অর্ডার থেকে পাওয়া কাস্টমারের তথ্য।</p></div></div><div class="panel"><div class="field"><input id="customerSearch" type="search" placeholder="নাম বা মোবাইল দিয়ে খুঁজুন"></div><div class="table-wrap"><table><thead><tr><th>Name</th><th>Mobile</th><th>District</th><th>Thana</th><th>Orders</th></tr></thead><tbody id="customersTable"><tr><td colspan="5" class="empty">Loading...</td></tr></tbody></table></div></div></section>
+
+<section class="page" id="payments"><div class="page-heading"><div><h2>Payment Management</h2><p class="muted">পেমেন্ট পদ্ধতি চালু/বন্ধ এবং নম্বর সেট করুন।</p></div></div>
+<div class="panel"><div id="paymentMessage" class="message"></div><form id="paymentForm">
+ <div class="setting-row"><div><strong>bKash</strong><p class="muted">bKash payment number</p></div><label class="inline-check"><input type="checkbox" id="bkashEnabled"> Enabled</label></div>
+ <div class="field"><label>bKash Number</label><input id="bkashNumber" placeholder="01XXXXXXXXX"></div>
+ <div class="setting-row"><div><strong>Nagad</strong><p class="muted">Nagad payment number</p></div><label class="inline-check"><input type="checkbox" id="nagadEnabled"> Enabled</label></div>
+ <div class="field"><label>Nagad Number</label><input id="nagadNumber" placeholder="01XXXXXXXXX"></div>
+ <div class="setting-row"><div><strong>Rocket</strong><p class="muted">Rocket payment number</p></div><label class="inline-check"><input type="checkbox" id="rocketEnabled"> Enabled</label></div>
+ <div class="field"><label>Rocket Number</label><input id="rocketNumber" placeholder="01XXXXXXXXX"></div>
+ <div class="setting-row"><div><strong>Cash on Delivery</strong><p class="muted">পণ্য হাতে পেয়ে টাকা প্রদান</p></div><label class="inline-check"><input type="checkbox" id="codEnabled"> Enabled</label></div>
+ <button class="btn btn-primary">Save Payment Settings</button>
+ </form></div></section>
+
+<section class="page" id="paymentHistory"><div class="page-heading"><div><h2>Payment History</h2><p class="muted">অর্ডারের পেমেন্ট স্ট্যাটাস দেখুন ও পরিবর্তন করুন।</p></div></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Method</th><th>Amount</th><th>Payment Status</th><th>Update</th></tr></thead><tbody id="paymentTable"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody></table></div></div></section>
+
+<section class="page" id="storeSettings"><div class="page-heading"><div><h2>Store Settings</h2><p class="muted">দোকানের নাম, যোগাযোগ ও ডেলিভারি তথ্য।</p></div></div><div class="panel"><div id="storeMessage" class="message"></div><form id="storeForm"><div class="form-grid">
+ <div class="field"><label>Store Name</label><input id="storeName" value="Posondo Ghor" required></div>
+ <div class="field"><label>Contact Phone</label><input id="storePhone"></div>
+ <div class="field"><label>Contact Email</label><input id="storeEmail" type="email"></div>
+ <div class="field"><label>Delivery Charge (৳)</label><input id="shippingCharge" type="number" min="0" value="0"></div>
+ <div class="field"><label>Free Shipping Above (৳)</label><input id="freeShippingMinimum" type="number" min="0" value="0"></div>
+ <div class="field full"><label>Store Address</label><textarea id="storeAddress"></textarea></div>
+ </div><button class="btn btn-primary">Save Store Settings</button></form></div></section>
+
+</div></main></div>
+
+<script>
+const firebaseConfig = {
+ apiKey:"AIzaSyAitvla6I6Ch2ec4iiUEaqW4_5sWkZQVpU",
+ authDomain:"posondo-ghor-admin.firebaseapp.com",
+ projectId:"posondo-ghor-admin",
+ storageBucket:"posondo-ghor-admin.firebasestorage.app",
+ messagingSenderId:"434962480525",
+ appId:"1:434962480525:web:60c07fb54223eaefa251c4",
+ measurementId:"G-NTKSZ5TTDW"
+};
+const ADMIN_UID="Ke33F93Pz0UzfJiFLOKo24yde623";
+if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth(), db=firebase.firestore();
+const $=id=>document.getElementById(id);
+let allProducts=[],allCategories=[],allOrders=[];
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function msg(id,text,type){const e=$(id);e.textContent=text;e.className="message "+type;}
+function hideMsg(id){$(id).className="message";}
+function money(v){return Number(v||0).toLocaleString("en-US");}
+function dateText(v){try{if(v&&v.toDate)return v.toDate().toLocaleString("en-GB");if(v)return new Date(v).toLocaleString("en-GB");}catch(e){}return "-";}
+function showPage(id,filter=""){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll(".menu button[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===id&&(!filter||b.dataset.filter===filter)));const titles={dashboard:"Dashboard",products:"All Products",addProduct:"Add Product",categories:"Categories",orders:"Order Management",customers:"Customer Management",payments:"Payment Management",paymentHistory:"Payment History",storeSettings:"Store Settings"};$("topTitle").textContent=titles[id]||"Dashboard";if(id==="orders"){$("orderFilter").value=filter;renderOrders();}if(id==="paymentHistory")renderPayments();}
+document.querySelectorAll(".menu button[data-page]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page,b.dataset.filter||"")));
+async function logout(){await auth.signOut();location.replace("./index.html");}
+$("logoutBtn").onclick=logout;$("logoutSide").onclick=logout;
+auth.onAuthStateChanged(async user => {
+  try {
+    if (!user) {
+      location.replace("./index.html");
+      return;
+    }
+
+    if (user.uid !== ADMIN_UID) {
+      alert("এই অ্যাকাউন্টের Admin Panel ব্যবহারের অনুমতি নেই।");
+      await auth.signOut();
+      location.replace("./index.html");
+      return;
+    }
+
+    $("loadingScreen").textContent = "Dashboard loading...";
+    $("loadingScreen").style.display = "block";
+    $("app").style.display = "none";
+
+    await refreshAll();
+
+    $("loadingScreen").style.display = "none";
+    $("app").style.display = "flex";
+  } catch (error) {
+    console.error("Admin initialization error:", error);
+    $("loadingScreen").style.display = "block";
+    $("app").style.display = "none";
+    $("loadingScreen").textContent =
+      "Admin Panel চালু করা যায়নি: " + (error.message || error);
+  }
+}, error => {
+  console.error("Firebase Auth error:", error);
+  $("loadingScreen").style.display = "block";
+  $("app").style.display = "none";
+  $("loadingScreen").textContent =
+    "Firebase Sign-in Error: " + (error.message || error);
+});
+async function refreshAll(){try{await Promise.all([loadProducts(),loadCategories(),loadOrders(),loadPaymentSettings(),loadStoreSettings()]);await loadDashboard();$("connectionStatus").textContent="Firebase connected successfully.";}catch(e){$("connectionStatus").textContent="Firebase error: "+e.message;console.error(e);}}
+async function loadDashboard(){const [p,o]=await Promise.all([db.collection("products").get(),db.collection("orders").get()]);$("totalProducts").textContent=p.size;$("totalOrders").textContent=o.size;const customerKeys=new Set(o.docs.map(d=>{const x=d.data();return x.phone||x.customerName||d.id;}));$("totalCustomers").textContent=customerKeys.size;$("pendingOrders").textContent=o.docs.filter(d=>(d.data().status||"Pending")==="Pending").length;const rows=o.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).slice(0,8);$("recentOrders").innerHTML=rows.length?rows.map(x=>`<tr><td>${esc(x.id.slice(0,8))}</td><td>${esc(x.customerName)}</td><td>${esc(x.phone)}</td><td>৳${money(x.totalAmount)}</td><td>${esc(x.status||"Pending")}</td></tr>`).join(""):'<tr><td colspan="5" class="empty">No orders yet.</td></tr>';}
+async function loadProducts(){const s=await db.collection("products").get();allProducts=s.docs.map(d=>({id:d.id,...d.data()}));renderProducts();}
+async function loadCategories(){const s=await db.collection("categories").get();allCategories=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));renderCategories();updateCategoryDropdown();}
+async function loadOrders(){const s=await db.collection("orders").get();allOrders=s.docs.map(d=>({id:d.id,...d.data()}));allOrders.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));renderOrders();renderCustomers();renderPayments();}
+function updateCategoryDropdown(selected=""){$("productCategory").innerHTML='<option value="">Select Category</option>'+allCategories.map(c=>`<option value="${esc(c.name)}" ${c.name===selected?"selected":""}>${esc(c.name)}</option>`).join("");}
+function renderCategories(){$("categoryList").innerHTML=allCategories.length?allCategories.map(c=>`<div class="category-row"><strong>${esc(c.name)}</strong><div class="actions"><button class="btn btn-secondary btn-small" onclick="editCategory('${c.id}')">Edit</button><button class="btn btn-danger btn-small" onclick="deleteCategory('${c.id}')">Delete</button></div></div>`).join(""):'<p class="empty">No categories yet.</p>';}
+$("categoryForm").onsubmit=async e=>{e.preventDefault();const name=$("categoryName").value.trim(),id=$("editCategoryId").value;if(allCategories.some(c=>c.name.toLowerCase()===name.toLowerCase()&&c.id!==id)){msg("categoryMessage","এই ক্যাটাগরি আগে থেকেই আছে।","error");return;}try{if(id){const old=allCategories.find(c=>c.id===id);await db.collection("categories").doc(id).update({name,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});if(old&&old.name!==name){const s=await db.collection("products").where("category","==",old.name).get();const batch=db.batch();s.docs.forEach(d=>batch.update(d.ref,{category:name}));await batch.commit();}}else await db.collection("categories").add({name,createdAt:firebase.firestore.FieldValue.serverTimestamp()});resetCategory();await loadCategories();await loadProducts();msg("categoryMessage","Category saved successfully.","success");}catch(e){msg("categoryMessage",e.message,"error");}};
+function editCategory(id){const c=allCategories.find(x=>x.id===id);if(!c)return;$("editCategoryId").value=id;$("categoryName").value=c.name;$("categoryFormTitle").textContent="Edit Category";$("saveCategoryBtn").textContent="Update Category";}
+function resetCategory(){$("categoryForm").reset();$("editCategoryId").value="";$("categoryFormTitle").textContent="Add New Category";$("saveCategoryBtn").textContent="Save Category";}
+$("cancelCategoryBtn").onclick=resetCategory;
+async function deleteCategory(id){const c=allCategories.find(x=>x.id===id);if(!c)return;if(allProducts.some(p=>p.category===c.name)){alert("এই ক্যাটাগরিতে পণ্য আছে। আগে পণ্যের ক্যাটাগরি পরিবর্তন করুন।");return;}if(confirm("Delete "+c.name+"?")){await db.collection("categories").doc(id).delete();await loadCategories();}}
+document.querySelectorAll(".image-url").forEach(i=>i.addEventListener("input",()=>{const im=i.parentElement.querySelector("img"),u=i.value.trim();if(u){im.src=u;im.style.display="block";im.onerror=()=>im.style.display="none";}else{im.style.display="none";im.removeAttribute("src");}}));
+function renderProducts(q=""){$("productTable").innerHTML=(()=>{const list=allProducts.filter(p=>(p.name+" "+p.category).toLowerCase().includes(q.toLowerCase()));return list.length?list.map(p=>{const price=p.salePrice!==null&&p.salePrice!==undefined&&p.salePrice!==""?p.salePrice:p.regularPrice;return `<tr><td><img class="product-thumb" src="${esc((p.images||[])[0]||"")}" onerror="this.style.visibility='hidden'"></td><td>${esc(p.name)}</td><td>${esc(p.category)}</td><td>৳${money(price)}</td><td>${esc(p.stock)}</td><td>${esc(p.status)}</td><td><div class="actions"><button class="btn btn-secondary btn-small" onclick="editProduct('${p.id}')">Edit</button><button class="btn btn-danger btn-small" onclick="deleteProduct('${p.id}')">Delete</button></div></td></tr>`}).join(""):'<tr><td colspan="7" class="empty">No products found.</td></tr>';})(); }
+$("productSearch").oninput=e=>renderProducts(e.target.value);$("newProductBtn").onclick=()=>{resetProduct();showPage("addProduct");};$("cancelEditBtn").onclick=()=>{resetProduct();showPage("products");};
+$("productForm").onsubmit=async e=>{e.preventDefault();const id=$("editProductId").value,regularPrice=Number($("regularPrice").value),saleRaw=$("salePrice").value,salePrice=saleRaw===""?null:Number(saleRaw),stock=Number($("stockQuantity").value),images=[...document.querySelectorAll(".image-url")].map(x=>x.value.trim());if(images.length!==4||images.some(x=>!/^https?:\/\//i.test(x))){msg("productMessage","চারটি সঠিক image URL দিন।","error");return;}if(salePrice!==null&&salePrice>regularPrice){msg("productMessage","Sale price regular price-এর বেশি হতে পারবে না।","error");return;}const data={name:$("productName").value.trim(),category:$("productCategory").value,regularPrice,salePrice,stock,status:$("productStatus").value,description:$("productDescription").value.trim(),images,updatedAt:firebase.firestore.FieldValue.serverTimestamp()};try{if(id)await db.collection("products").doc(id).update(data);else{data.createdAt=firebase.firestore.FieldValue.serverTimestamp();await db.collection("products").add(data);}msg("productMessage","Product saved successfully.","success");await loadProducts();await loadDashboard();setTimeout(()=>{resetProduct();showPage("products");},700);}catch(e){msg("productMessage",e.message,"error");}};
+function editProduct(id){const p=allProducts.find(x=>x.id===id);if(!p)return;$("editProductId").value=id;$("productName").value=p.name||"";updateCategoryDropdown(p.category||"");$("regularPrice").value=p.regularPrice??"";$("salePrice").value=p.salePrice??"";$("stockQuantity").value=p.stock??0;$("productStatus").value=p.status||"Active";$("productDescription").value=p.description||"";document.querySelectorAll(".image-url").forEach((x,i)=>{x.value=(p.images||[])[i]||"";x.dispatchEvent(new Event("input"));});$("productFormTitle").textContent="Edit Product";$("saveProductBtn").textContent="Update Product";showPage("addProduct");}
+function resetProduct(){$("productForm").reset();$("editProductId").value="";$("stockQuantity").value=1;document.querySelectorAll(".image-preview").forEach(x=>{x.style.display="none";x.removeAttribute("src");});$("productFormTitle").textContent="Add New Product";$("saveProductBtn").textContent="Save Product";hideMsg("productMessage");}
+async function deleteProduct(id){const p=allProducts.find(x=>x.id===id);if(p&&confirm("Delete "+p.name+"?")){await db.collection("products").doc(id).delete();await loadProducts();await loadDashboard();}}
+$("orderSearch").oninput=renderOrders;$("orderFilter").onchange=renderOrders;
+function renderOrders(){if(!$("ordersTable"))return;const q=($("orderSearch")?.value||"").toLowerCase(),f=$("orderFilter")?.value||"";const list=allOrders.filter(o=>(!f||(o.status||"Pending")===f)&&[o.id,o.customerName,o.phone,o.productName].join(" ").toLowerCase().includes(q));$("ordersTable").innerHTML=list.length?list.map(o=>`<tr><td>${esc(o.id.slice(0,9))}<br><small>${dateText(o.createdAt)}</small></td><td><b>${esc(o.customerName)}</b><br>${esc(o.phone)}<br>${esc(o.district)}, ${esc(o.thana)}<br><small>${esc(o.comment)}</small></td><td>${esc(o.productName)}</td><td>${esc(o.quantity)}</td><td>৳${money(o.totalAmount)}</td><td>${esc(o.paymentMethod||"Not selected")}<br>${esc(o.paymentStatus||"Unpaid")}</td><td><select onchange="updateOrderStatus('${o.id}',this.value)">${["Pending","Processing","Shipped","Completed","Cancelled"].map(s=>`<option ${((o.status||"Pending")===s)?"selected":""}>${s}</option>`).join("")}</select></td><td><button class="btn btn-danger btn-small" onclick="deleteOrder('${o.id}')">Delete</button></td></tr>`).join(""):'<tr><td colspan="8" class="empty">No orders found.</td></tr>';}
+async function updateOrderStatus(id,status){try{await db.collection("orders").doc(id).update({status,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});await loadOrders();await loadDashboard();}catch(e){alert("Status update failed: "+e.message);}}
+async function deleteOrder(id){if(confirm("এই অর্ডারটি ডিলিট করবেন?")){try{await db.collection("orders").doc(id).delete();await loadOrders();await loadDashboard();}catch(e){alert(e.message);}}}
+function renderCustomers(){const map=new Map();allOrders.forEach(o=>{const key=o.phone||o.customerName||o.id;if(!map.has(key))map.set(key,{name:o.customerName,phone:o.phone,district:o.district,thana:o.thana,count:0});map.get(key).count++;});const q=($("customerSearch")?.value||"").toLowerCase();const list=[...map.values()].filter(c=>(c.name+" "+c.phone).toLowerCase().includes(q));$("customersTable").innerHTML=list.length?list.map(c=>`<tr><td>${esc(c.name)}</td><td>${esc(c.phone)}</td><td>${esc(c.district)}</td><td>${esc(c.thana)}</td><td>${c.count}</td></tr>`).join(""):'<tr><td colspan="5" class="empty">No customers found. Customers are summarized from orders.</td></tr>';}
+$("customerSearch").oninput=renderCustomers;
+function renderPayments(){if(!$("paymentTable"))return;$("paymentTable").innerHTML=allOrders.length?allOrders.map(o=>`<tr><td>${esc(o.id.slice(0,10))}</td><td>${esc(o.customerName)}<br>${esc(o.phone)}</td><td>${esc(o.paymentMethod||"Not selected")}</td><td>৳${money(o.totalAmount)}</td><td>${esc(o.paymentStatus||"Unpaid")}</td><td><select onchange="updatePaymentStatus('${o.id}',this.value)">${["Pending","Paid","Failed","Refunded","Unpaid"].map(s=>`<option ${((o.paymentStatus||"Unpaid")===s)?"selected":""}>${s}</option>`).join("")}</select></td></tr>`).join(""):'<tr><td colspan="6" class="empty">No payment records.</td></tr>';}
+async function updatePaymentStatus(id,status){try{await db.collection("orders").doc(id).update({paymentStatus:status,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});await loadOrders();}catch(e){alert(e.message);}}
+async function loadPaymentSettings(){const d=await db.collection("settings").doc("payment").get();const p=d.exists?d.data():{};["bkash","nagad","rocket"].forEach(k=>{$(k+"Enabled").checked=!!p[k]?.enabled;$(k+"Number").value=p[k]?.number||"";});$("codEnabled").checked=p.cod?.enabled!==false;}
+$("paymentForm").onsubmit=async e=>{e.preventDefault();const data={bkash:{enabled:$("bkashEnabled").checked,number:$("bkashNumber").value.trim()},nagad:{enabled:$("nagadEnabled").checked,number:$("nagadNumber").value.trim()},rocket:{enabled:$("rocketEnabled").checked,number:$("rocketNumber").value.trim()},cod:{enabled:$("codEnabled").checked},updatedAt:firebase.firestore.FieldValue.serverTimestamp()};try{await db.collection("settings").doc("payment").set(data,{merge:true});msg("paymentMessage","Payment settings saved.","success");}catch(e){msg("paymentMessage",e.message,"error");}};
+async function loadStoreSettings(){const d=await db.collection("settings").doc("store").get();if(!d.exists)return;const s=d.data();$("storeName").value=s.storeName||"Posondo Ghor";$("storePhone").value=s.phone||"";$("storeEmail").value=s.email||"";$("storeAddress").value=s.address||"";$("shippingCharge").value=s.shippingCharge??0;$("freeShippingMinimum").value=s.freeShippingMinimum??0;}
+$("storeForm").onsubmit=async e=>{e.preventDefault();const data={storeName:$("storeName").value.trim(),phone:$("storePhone").value.trim(),email:$("storeEmail").value.trim(),address:$("storeAddress").value.trim(),shippingCharge:Number($("shippingCharge").value||0),freeShippingMinimum:Number($("freeShippingMinimum").value||0),updatedAt:firebase.firestore.FieldValue.serverTimestamp()};try{await db.collection("settings").doc("store").set(data,{merge:true});msg("storeMessage","Store settings saved.","success");}catch(e){msg("storeMessage",e.message,"error");}};
+</script>
+</body>
+</html>
