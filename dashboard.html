@@ -159,7 +159,42 @@ function showPage(id,filter=""){document.querySelectorAll(".page").forEach(p=>p.
 document.querySelectorAll(".menu button[data-page]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page,b.dataset.filter||"")));
 async function logout(){await auth.signOut();location.replace("index.html");}
 $("logoutBtn").onclick=logout;$("logoutSide").onclick=logout;
-auth.onAuthStateChanged(async user=>{if(!user){location.replace("index.html");return;}if(user.uid!==ADMIN_UID){await auth.signOut();location.replace("index.html");return;}$("loadingScreen").style.display="none";$("app").style.display="flex";await refreshAll();});
+auth.onAuthStateChanged(async user => {
+  try {
+    if (!user) {
+      location.replace("index.html");
+      return;
+    }
+
+    if (user.uid !== ADMIN_UID) {
+      alert("এই অ্যাকাউন্টের Admin Panel ব্যবহারের অনুমতি নেই।");
+      await auth.signOut();
+      location.replace("index.html");
+      return;
+    }
+
+    $("loadingScreen").textContent = "Dashboard loading...";
+    $("loadingScreen").style.display = "block";
+    $("app").style.display = "none";
+
+    await refreshAll();
+
+    $("loadingScreen").style.display = "none";
+    $("app").style.display = "flex";
+  } catch (error) {
+    console.error("Admin initialization error:", error);
+    $("loadingScreen").style.display = "block";
+    $("app").style.display = "none";
+    $("loadingScreen").textContent =
+      "Admin Panel চালু করা যায়নি: " + (error.message || error);
+  }
+}, error => {
+  console.error("Firebase Auth error:", error);
+  $("loadingScreen").style.display = "block";
+  $("app").style.display = "none";
+  $("loadingScreen").textContent =
+    "Firebase Sign-in Error: " + (error.message || error);
+});
 async function refreshAll(){try{await Promise.all([loadProducts(),loadCategories(),loadOrders(),loadPaymentSettings(),loadStoreSettings()]);await loadDashboard();$("connectionStatus").textContent="Firebase connected successfully.";}catch(e){$("connectionStatus").textContent="Firebase error: "+e.message;console.error(e);}}
 async function loadDashboard(){const [p,o]=await Promise.all([db.collection("products").get(),db.collection("orders").get()]);$("totalProducts").textContent=p.size;$("totalOrders").textContent=o.size;const customerKeys=new Set(o.docs.map(d=>{const x=d.data();return x.phone||x.customerName||d.id;}));$("totalCustomers").textContent=customerKeys.size;$("pendingOrders").textContent=o.docs.filter(d=>(d.data().status||"Pending")==="Pending").length;const rows=o.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).slice(0,8);$("recentOrders").innerHTML=rows.length?rows.map(x=>`<tr><td>${esc(x.id.slice(0,8))}</td><td>${esc(x.customerName)}</td><td>${esc(x.phone)}</td><td>৳${money(x.totalAmount)}</td><td>${esc(x.status||"Pending")}</td></tr>`).join(""):'<tr><td colspan="5" class="empty">No orders yet.</td></tr>';}
 async function loadProducts(){const s=await db.collection("products").get();allProducts=s.docs.map(d=>({id:d.id,...d.data()}));renderProducts();}
