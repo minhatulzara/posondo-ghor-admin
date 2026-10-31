@@ -157,19 +157,19 @@ function money(v){return Number(v||0).toLocaleString("en-US");}
 function dateText(v){try{if(v&&v.toDate)return v.toDate().toLocaleString("en-GB");if(v)return new Date(v).toLocaleString("en-GB");}catch(e){}return "-";}
 function showPage(id,filter=""){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll(".menu button[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===id&&(!filter||b.dataset.filter===filter)));const titles={dashboard:"Dashboard",products:"All Products",addProduct:"Add Product",categories:"Categories",orders:"Order Management",customers:"Customer Management",payments:"Payment Management",paymentHistory:"Payment History",storeSettings:"Store Settings"};$("topTitle").textContent=titles[id]||"Dashboard";if(id==="orders"){$("orderFilter").value=filter;renderOrders();}if(id==="paymentHistory")renderPayments();}
 document.querySelectorAll(".menu button[data-page]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page,b.dataset.filter||"")));
-async function logout(){await auth.signOut();location.replace("index.html");}
+async function logout(){await auth.signOut();location.replace("./index.html");}
 $("logoutBtn").onclick=logout;$("logoutSide").onclick=logout;
 auth.onAuthStateChanged(async user => {
   try {
     if (!user) {
-      location.replace("index.html");
+      location.replace("./index.html");
       return;
     }
 
     if (user.uid !== ADMIN_UID) {
       alert("এই অ্যাকাউন্টের Admin Panel ব্যবহারের অনুমতি নেই।");
       await auth.signOut();
-      location.replace("index.html");
+      location.replace("./index.html");
       return;
     }
 
