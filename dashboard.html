@@ -36,6 +36,7 @@
     <details class="menu-group"><summary>Product</summary><div class="menu-sub">
       <button data-page="addProduct">Add Product</button><button data-page="products">All Product</button><button data-page="products" data-stockout="true">Stock Out Product</button>
     </div></details>
+    <button data-page="categories" id="categoriesMenuBtn">📂 Category Management</button>
     <details class="menu-group"><summary>Order</summary><div class="menu-sub">
       <button data-page="orders">All Order</button><button data-page="orders" data-filter="Pending">Pending Order</button><button data-page="orders" data-filter="Processing">Processing Order</button><button data-page="orders" data-filter="Shipped">Shipped Order</button><button data-page="orders" data-filter="Completed">Complete Order</button><button data-page="orders" data-filter="Cancelled">Cancel Order</button>
     </div></details>
@@ -161,7 +162,6 @@ function showPage(id,filter="",stockOut=false,paymentFilter=""){
  if(id==="paymentHistory"){if($("paymentFilter"))$("paymentFilter").value=paymentFilter;renderPayments();}
 }
 document.querySelectorAll(".menu button[data-page]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page,b.dataset.filter||"",b.dataset.stockout==="true",b.dataset.paymentFilter||"")));
-document.querySelectorAll(".menu button[data-page]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page,b.dataset.filter||"")));
 async function logout(){await auth.signOut();location.replace("./index.html");}
 $("logoutBtn").onclick=logout;$("logoutSide").onclick=logout;
 auth.onAuthStateChanged(async user => {
