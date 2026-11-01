@@ -24,6 +24,86 @@
 #loadingScreen{text-align:center;padding:80px 20px;color:#64748b}
 @media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.sidebar{width:220px}}
 @media(max-width:700px){.layout{display:block}.menu-group{width:100%}.menu-sub{display:flex;flex-wrap:wrap}.sidebar{width:100%;height:auto;position:relative;max-height:none}.brand{padding-bottom:10px}.menu{display:flex;flex-wrap:wrap;gap:3px}.menu-title{display:none}.menu button{width:auto;padding:9px}.content{padding:13px}.topbar{padding:13px}.stats{grid-template-columns:1fr 1fr}.form-grid,.image-grid{grid-template-columns:1fr}.page-heading h2{font-size:20px}}
+
+/* POSONDO GHOR — refined admin dashboard */
+:root{--pg-ink:#182844;--pg-navy:#142744;--pg-navy-2:#203b62;--pg-orange:#f28a45;--pg-orange-soft:#fff1e7;--pg-bg:#f4f6fa;--pg-line:#e5eaf1;--pg-muted:#718096;--pg-green:#16845b}
+body{font-family:Inter,"Noto Sans Bengali",Arial,sans-serif;background:var(--pg-bg);color:var(--pg-ink);line-height:1.5}
+.sidebar{background:linear-gradient(180deg,#142744 0%,#1b3557 100%);box-shadow:8px 0 28px #10233b12}
+.brand{font-size:19px;letter-spacing:1.1px;color:#fff}
+.brand:before{content:"";display:inline-block;width:9px;height:9px;border-radius:3px;background:var(--pg-orange);margin:0 10px 1px 0;box-shadow:0 0 0 5px #f28a4522}
+.menu button,.menu-group summary{border-radius:10px;transition:background .18s ease,color .18s ease}
+.menu button:hover,.menu-group summary:hover{background:#ffffff12;color:#fff}
+.menu button.active{background:linear-gradient(100deg,#f28a45,#f5a05f);color:#172b49;box-shadow:0 5px 15px #f28a4530;font-weight:800}
+.menu-group summary{font-weight:650}
+.topbar{padding:17px 28px;border-bottom:1px solid var(--pg-line);box-shadow:0 5px 20px #14274408}
+.topbar h2{color:var(--pg-navy);font-size:21px;font-weight:800;letter-spacing:-.3px}
+.admin-label{color:var(--pg-muted)}
+.logout{background:#fff0ed;color:#bd4c39;border:1px solid #ffd9d1;border-radius:9px;font-weight:700;transition:.2s}
+.logout:hover{background:#ffe1db}
+.content{padding:27px}
+.page-heading{margin-bottom:22px}
+.page-heading h2{color:var(--pg-navy);font-weight:800;letter-spacing:-.45px}
+.muted{color:var(--pg-muted)}
+.stat-card,.panel{border:1px solid #e9edf3;border-radius:15px;box-shadow:0 8px 24px #14274408}
+.stat-card{position:relative;overflow:hidden;padding:21px}
+.stat-card:after{content:"";position:absolute;right:-20px;top:-24px;width:90px;height:90px;border-radius:50%;background:var(--pg-orange-soft)}
+.stat-card p{position:relative;z-index:1;font-weight:650}
+.stat-card h3{position:relative;z-index:1;color:var(--pg-navy);font-size:30px}
+.panel{padding:21px}
+.panel h3{color:var(--pg-navy);font-weight:800}
+.btn{border-radius:9px;transition:transform .16s ease,box-shadow .16s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:linear-gradient(100deg,#e97b36,#f29a59);color:#182844;box-shadow:0 5px 13px #f28a4528}
+.btn-primary:hover{box-shadow:0 8px 18px #f28a4540}
+.btn-secondary{background:#edf1f6;color:#34445d}
+.btn-danger{background:#fff0ed;color:#bd4c39}
+.field input,.field select,.field textarea{border-color:#dce3ec;border-radius:9px;padding:12px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--pg-orange);box-shadow:0 0 0 3px #f28a4520}
+th{background:#f5f7fa;color:#4c5d75;font-weight:800;white-space:nowrap}
+td{color:#34445d}
+table{border-collapse:separate;border-spacing:0}
+tbody tr{transition:background .15s}
+tbody tr:hover{background:#fffaf6}
+td,th{padding:13px 12px;border-bottom:1px solid #edf0f4}
+.table-wrap{border:1px solid #e9edf3;border-radius:11px}
+.table-wrap table{min-width:900px}
+.order-products-list{display:grid;gap:10px;min-width:245px}
+.order-product{display:flex;align-items:center;gap:10px;min-width:0}
+.order-product-image{display:block;flex:0 0 54px;width:54px;height:58px}
+.order-product img,.order-product .no-image{width:54px;height:58px;object-fit:contain;background:#f7f8fa;border:1px solid #e7ebf0;border-radius:9px}
+.order-product-info{display:grid;gap:3px;min-width:0}
+.order-product-info strong{font-size:12px;line-height:1.4;color:#243650;overflow-wrap:anywhere}
+.order-product-info small{font-size:11px;color:#7a8798}
+.size-chip{display:inline-flex;align-items:center;width:max-content;max-width:100%;padding:3px 8px;border-radius:6px;background:#fff0e5;color:#a94f1e;font-size:11px;font-weight:800}
+.size-missing{font-size:10px;color:#9aa4b2}
+.order-id{font-weight:800;color:#243b5b;letter-spacing:.2px}
+.order-total{color:#1b6d50;white-space:nowrap}
+.qty-pill{display:inline-flex;min-width:28px;justify-content:center;padding:4px 8px;border-radius:7px;background:#edf2f8;color:#334b6b;font-weight:800}
+.payment-state{display:inline-block;margin-top:4px;padding:3px 7px;border-radius:6px;background:#f1f4f8;color:#58677d;font-size:11px;font-weight:700}
+.status-select{border:1px solid #dbe2eb;border-radius:8px;padding:7px 25px 7px 9px;background:#fff;color:#33445d;font-weight:700;max-width:130px}
+.status-select:focus{outline:2px solid #f28a4540;border-color:var(--pg-orange)}
+.product-thumb{border-radius:8px;border:1px solid #e7ebf0}
+.category-row,.setting-row,.image-item{border-color:#e7ebf0;border-radius:10px}
+.pill{font-weight:700}
+.message{border-radius:9px}
+@media(max-width:900px){.content{padding:18px}.topbar{padding:15px 18px}}
+@media(max-width:700px){
+ .sidebar{padding:12px;background:linear-gradient(100deg,#142744,#203b62)}
+ .brand{padding:8px 9px 13px}
+ .menu{gap:5px}
+ .menu button,.menu-group summary{font-size:12px;padding:9px 10px}
+ .menu-sub{padding-left:5px}
+ .content{padding:12px}
+ .topbar{padding:12px 14px}
+ .topbar h2{font-size:18px}
+ .stats{gap:9px}
+ .stat-card{padding:14px;border-radius:12px}
+ .stat-card h3{font-size:23px}
+ .panel{padding:13px;border-radius:12px}
+ .page-heading h2{font-size:19px}
+ .table-wrap{border-radius:9px}
+}
+
 </style>
 </head>
 <body>
@@ -231,16 +311,29 @@ function getOrderProductImage(o){
  const linkedProduct=allProducts.find(p=>(o.productId&&p.id===o.productId)||(o.productName&&p.name===o.productName));
  return (linkedProduct?.images||[])[0]||o.productImage||o.imageUrl||o.image||"";
 }
+function getOrderItems(o){
+ const items=Array.isArray(o.items)?o.items.filter(Boolean):[];
+ if(items.length)return items;
+ return [{productId:o.productId,productName:o.productName,size:o.size||o.selectedSize||"",quantity:o.quantity||1,unitPrice:o.unitPrice||0}];
+}
+function renderOrderProductItems(o){
+ return getOrderItems(o).map(item=>{
+  const image=getOrderProductImage({...item,productImage:item.productImage||o.productImage,imageUrl:item.imageUrl||o.imageUrl,image:item.image||o.image});
+  const imageHtml=image
+   ? `<img src="${esc(image)}" alt="${esc(item.productName||"Product")}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="no-image" style="display:none">ছবি নেই</div>`
+   : '<div class="no-image">ছবি নেই</div>';
+  const size=String(item.size||item.selectedSize||item.productSize||"").trim();
+  return `<div class="order-product"><span class="order-product-image">${imageHtml}</span><span class="order-product-info"><strong>${esc(item.productName||o.productName||"পণ্য")}</strong>${size?`<span class="size-chip">সাইজ: ${esc(size)}</span>`:'<span class="size-missing">সাইজ উল্লেখ নেই</span>'}<small>পরিমাণ: ${esc(item.quantity||1)}${item.unitPrice!==undefined?` · ৳${money(item.unitPrice)}`:""}</small></span></div>`;
+ }).join("");
+}
 function renderOrders(){
  if(!$("ordersTable"))return;
  const q=($("orderSearch")?.value||"").toLowerCase(),f=$("orderFilter")?.value||"";
- const list=allOrders.filter(o=>(!f||(o.status||"Pending")===f)&&[o.id,o.customerName,o.phone,o.productName].join(" ").toLowerCase().includes(q));
+ const list=allOrders.filter(o=>(!f||(o.status||"Pending")===f)&&[o.id,o.customerName,o.phone,o.productName,...getOrderItems(o).map(i=>i.productName+" "+(i.size||i.selectedSize||""))].join(" ").toLowerCase().includes(q));
  $("ordersTable").innerHTML=list.length?list.map(o=>{
-  const productImage=getOrderProductImage(o);
-  const imageHtml=productImage
-   ? `<img src="${esc(productImage)}" alt="${esc(o.productName||"Product")}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="no-image" style="display:none">ছবি নেই</div>`
-   : '<div class="no-image">ছবি নেই</div>';
-  return `<tr><td>${esc(o.id.slice(0,9))}<br><small>${dateText(o.createdAt)}</small></td><td><b>${esc(o.customerName)}</b><br>${esc(o.phone)}<br>${esc(o.district)}, ${esc(o.thana)}<br><small>${esc(o.comment)}</small></td><td><div class="order-product">${imageHtml}<strong>${esc(o.productName)}</strong></div></td><td>${esc(o.quantity)}</td><td>৳${money(o.totalAmount)}</td><td>${esc(o.paymentMethod||"Not selected")}<br>${esc(o.paymentStatus||"Unpaid")}</td><td><select onchange="updateOrderStatus('${o.id}',this.value)">${["Pending","Processing","Shipped","Completed","Cancelled"].map(st=>`<option ${((o.status||"Pending")===st)?"selected":""}>${st}</option>`).join("")}</select></td><td><button class="btn btn-danger btn-small" onclick="deleteOrder('${o.id}')">Delete</button></td></tr>`;
+  const items=getOrderItems(o);
+  const totalQty=items.reduce((sum,item)=>sum+Number(item.quantity||0),0)||Number(o.quantity||0);
+  return `<tr><td><span class="order-id">${esc(o.id.slice(0,9))}</span><br><small>${dateText(o.createdAt)}</small></td><td><b>${esc(o.customerName)}</b><br>${esc(o.phone)}<br>${esc(o.district)}, ${esc(o.thana)}<br><small>${esc(o.comment)}</small></td><td><div class="order-products-list">${renderOrderProductItems(o)}</div></td><td><span class="qty-pill">${totalQty}</span></td><td><strong class="order-total">৳${money(o.totalAmount)}</strong></td><td>${esc(o.paymentMethod||"Not selected")}<br><span class="payment-state">${esc(o.paymentStatus||"Unpaid")}</span></td><td><select class="status-select" onchange="updateOrderStatus('${o.id}',this.value)">${["Pending","Processing","Shipped","Completed","Cancelled"].map(st=>`<option ${((o.status||"Pending")===st)?"selected":""}>${st}</option>`).join("")}</select></td><td><button class="btn btn-danger btn-small" onclick="deleteOrder('${o.id}')">Delete</button></td></tr>`;
  }).join(""):'<tr><td colspan="8" class="empty">No orders found.</td></tr>';
 }
 async function updateOrderStatus(id,status){try{await db.collection("orders").doc(id).update({status,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});await loadOrders();await loadDashboard();}catch(e){alert("Status update failed: "+e.message);}}
