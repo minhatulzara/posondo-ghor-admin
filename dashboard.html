@@ -58,6 +58,111 @@ tbody tr:hover{background:#fbf8f2}
 .payment-summary .stat-card h3{font-size:24px}
 @media(max-width:700px){.sidebar{background:linear-gradient(100deg,#143c32,#24594b)}.content{padding:12px}.stat-card small{font-size:10px}.payment-summary .stat-card h3{font-size:19px}}
 
+
+/* POSONDO GHOR — polished premium dashboard theme */
+:root{
+ --pg-bg:#f5f6f2;--pg-surface:#fff;--pg-ink:#20352f;--pg-deep:#123b32;
+ --pg-deep2:#1b5144;--pg-accent:#d6ad79;--pg-accent-dark:#9a7047;
+ --pg-muted:#7a8982;--pg-line:#e5eae4;--pg-soft:#f3f6f1;
+ --pg-shadow:0 10px 30px rgba(25,57,46,.065)
+}
+html{scroll-behavior:smooth}
+body{font-family:Inter,"Noto Sans Bengali",Arial,sans-serif;background:var(--pg-bg);color:var(--pg-ink);line-height:1.5}
+.layout{min-height:100vh}
+.sidebar{width:252px;background:linear-gradient(165deg,#10372f 0%,#17483d 58%,#205749 100%);padding:22px 14px;box-shadow:10px 0 35px rgba(13,45,37,.12)}
+.brand{font-size:19px;letter-spacing:1.15px;padding:13px 12px 28px;color:#fff}
+.brand:before{content:"";display:inline-block;width:9px;height:9px;border-radius:3px;background:var(--pg-accent);margin:0 10px 1px 0;box-shadow:0 0 0 5px rgba(214,173,121,.16)}
+.menu-title{font-size:10px;letter-spacing:1.4px;color:#9bb8ad;padding:12px 12px 9px}
+.menu button,.menu-group summary{border-radius:10px;color:#d7e4de;padding:11px 12px;transition:all .18s ease}
+.menu button:hover,.menu-group summary:hover{background:rgba(255,255,255,.09);color:#fff}
+.menu button.active{background:linear-gradient(105deg,#d5ad7b,#ead0aa);color:#183d33;font-weight:800;box-shadow:0 6px 16px rgba(5,25,20,.2)}
+.menu-group summary:after{color:#aac2b8}
+.menu-sub{padding:3px 0 5px 12px}
+.menu-sub button{font-size:12.5px}
+.menu .logout-side{color:#f0c7bd;margin-top:22px}
+#categoriesMenuBtn:before,#categoriesMenuBtn:after{content:none!important;display:none!important}
+.main{min-width:0}
+.topbar{background:rgba(255,255,255,.94);backdrop-filter:blur(12px);padding:17px 30px;border-bottom:1px solid var(--pg-line);box-shadow:0 4px 20px rgba(25,57,46,.035)}
+.topbar h2{font-size:20px;letter-spacing:-.3px;color:var(--pg-deep);font-weight:800}
+.admin-label{color:var(--pg-muted);font-size:12px}
+.logout{background:#fbefeb;color:#a65a48;border:1px solid #f0ddd5;border-radius:10px;padding:10px 16px;font-weight:700}
+.logout:hover{background:#f8e4dd}
+.content{padding:29px 30px;max-width:1700px;margin:0 auto}
+.page-heading{margin-bottom:23px}
+.page-heading h2{font-size:25px;letter-spacing:-.55px;color:var(--pg-deep);font-weight:800}
+.eyebrow{display:block;font-size:10px;letter-spacing:1.65px;color:var(--pg-accent-dark);font-weight:800;margin-bottom:6px}
+.muted{color:var(--pg-muted);font-size:12px}
+.dashboard-actions{display:flex;gap:9px;flex-wrap:wrap}
+.stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:20px}
+.stat-card,.panel{background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:16px;box-shadow:var(--pg-shadow)}
+.stat-card{padding:21px 22px;position:relative;overflow:hidden;min-height:116px;transition:transform .18s ease,box-shadow .18s ease}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(25,57,46,.1)}
+.stat-card:before{content:"";position:absolute;right:-24px;top:-31px;width:100px;height:100px;border-radius:50%;background:#f7f0e6}
+.stat-card p,.stat-card h3,.stat-card small{position:relative;z-index:1}
+.stat-card p{font-size:12px;color:var(--pg-muted);font-weight:700;margin-bottom:8px}
+.stat-card h3{font-size:29px;color:var(--pg-deep);font-weight:800;letter-spacing:-.5px}
+.stat-card small{display:block;color:#8a9991;font-size:11px;margin-top:5px}
+.panel{padding:22px;margin-bottom:19px}
+.panel h3{font-size:16px;color:var(--pg-deep);font-weight:800;margin-bottom:0}
+.panel-heading-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px}
+.panel-heading-row .muted{margin-top:4px}
+.text-action{border:0;background:#f7f0e6;color:#8b633b;padding:8px 12px;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer}
+.text-action:hover{background:#efe0ca}
+#connectionStatus{display:flex;align-items:center;gap:8px}
+#connectionStatus:before{content:"";width:8px;height:8px;border-radius:50%;background:#27a36e;box-shadow:0 0 0 4px #e8f5ed}
+.btn{border-radius:9px;padding:10px 15px;transition:transform .16s ease,box-shadow .16s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:linear-gradient(110deg,#1a5949,#28735c);color:#fff;box-shadow:0 5px 14px rgba(25,90,70,.18)}
+.btn-primary:hover{background:#164a3c;box-shadow:0 8px 18px rgba(25,90,70,.22)}
+.btn-secondary{background:#f1f4ef;color:#3b5a4d;border:1px solid #e4eae2}
+.btn-danger{background:#fff0ed;color:#b45342}
+.field label{color:#40594f}
+.field input,.field select,.field textarea{border:1px solid #dfe7df;border-radius:9px;padding:11px 12px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--pg-accent);box-shadow:0 0 0 3px rgba(214,173,121,.2)}
+.table-wrap{border:1px solid var(--pg-line);border-radius:11px;overflow:auto}
+table{border-collapse:separate;border-spacing:0;min-width:720px}
+th,td{padding:13px 14px;border-bottom:1px solid #edf0eb;font-size:12px}
+th{background:#f3f6f1;color:#53685e;font-size:10px;text-transform:uppercase;letter-spacing:.55px}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:#fcfaf6}
+.order-total{color:#176b50;white-space:nowrap}
+.dashboard-status{display:inline-block;padding:4px 9px;border-radius:20px;background:#edf4ef;color:#32634f;font-size:10px;font-weight:800}
+.payment-state{display:inline-block;padding:4px 9px;border-radius:20px;background:#f7f0e6;color:#89633e;font-size:10px;font-weight:800}
+.order-id{color:#2d4b40;font-weight:800}
+.order-product-info strong{color:#29483d}
+.size-chip{background:#f7f0e6;color:#8b633b}
+.status-select{border:1px solid #dce5dc;border-radius:8px;padding:7px 9px;background:#fff;color:#355348;font-weight:700}
+.category-row,.setting-row,.image-item{border:1px solid var(--pg-line);border-radius:11px;background:#fff}
+.message{border-radius:9px}
+.empty{padding:28px;color:#87958e}
+@media(max-width:1100px){.content{padding:22px}.sidebar{width:225px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){
+ .layout{display:block}
+ .sidebar{width:100%;height:auto;position:relative;max-height:none;padding:12px;background:linear-gradient(100deg,#10372f,#205749)}
+ .brand{padding:7px 9px 13px}
+ .menu{display:flex;flex-wrap:wrap;gap:4px}
+ .menu-title{display:none}
+ .menu button,.menu-group summary{width:auto;padding:9px 10px;font-size:11px}
+ .menu-group{width:auto}
+ .menu-sub{display:flex;flex-wrap:wrap;padding:4px}
+ .menu-sub button{font-size:10px}
+ .menu .logout-side{margin-top:0}
+ .topbar{padding:13px 15px}
+ .content{padding:14px}
+ .page-heading h2{font-size:21px}
+ .page-heading{align-items:flex-start}
+ .dashboard-actions{width:100%}
+ .dashboard-actions .btn{flex:1;font-size:11px;padding:9px}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .stat-card{padding:15px;min-height:102px;border-radius:13px}
+ .stat-card h3{font-size:23px}
+ .stat-card p{font-size:11px}
+ .panel{padding:14px;border-radius:13px}
+ .panel-heading-row{align-items:flex-start}
+ .text-action{font-size:10px;padding:7px 8px}
+ .table-wrap{border-radius:9px}
+}
+
 </style>
 </head>
 <body>
@@ -87,7 +192,7 @@ tbody tr:hover{background:#fbf8f2}
 <div class="content">
 
 <section class="page active" id="dashboard">
- <div class="page-heading"><div><h2>Welcome to Dashboard</h2><p class="muted">আপনার দোকানের সারসংক্ষেপ</p></div></div>
+ <div class="page-heading"><div><span class="eyebrow">STORE CONTROL CENTER</span><h2>Welcome to Dashboard</h2><p class="muted">আপনার দোকানের আজকের সারসংক্ষেপ ও কার্যক্রম</p></div><div class="dashboard-actions"><button class="btn btn-secondary" onclick="showPage('orders')">সব অর্ডার দেখুন</button><button class="btn btn-primary" onclick="showPage('paymentHistory')">পেমেন্ট হিস্ট্রি</button></div></div>
  <div class="stats">
   <div class="stat-card"><p>Total Products</p><h3 id="totalProducts">0</h3><small>সক্রিয় পণ্যের তালিকা</small></div>
   <div class="stat-card"><p>Total Orders</p><h3 id="totalOrders">0</h3><small>সর্বমোট অর্ডার</small></div>
@@ -97,7 +202,8 @@ tbody tr:hover{background:#fbf8f2}
   <div class="stat-card"><p>Unpaid Amount</p><h3 id="unpaidAmount">৳0</h3><small>বকেয়া পেমেন্ট</small></div>
  </div>
  <div class="panel"><h3>Store Overview</h3><p class="muted" id="connectionStatus">Firebase data loading...</p></div>
- <div class="panel"><h3>Recent Orders</h3><div class="table-wrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Phone</th><th>Total</th><th>Status</th></tr></thead><tbody id="recentOrders"><tr><td colspan="5" class="empty">Loading...</td></tr></tbody></table></div></div>
+ <div class="panel"><div class="panel-heading-row"><div><h3>Recent Orders</h3><p class="muted">সর্বশেষ অর্ডারসমূহ</p></div><button class="text-action" onclick="showPage('orders')">সব অর্ডার দেখুন →</button></div><div class="table-wrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Phone</th><th>Total</th><th>Status</th></tr></thead><tbody id="recentOrders"><tr><td colspan="5" class="empty">Loading...</td></tr></tbody></table></div></div>
+ <div class="panel"><div class="panel-heading-row"><div><h3>Recent Payment Activity</h3><p class="muted">সর্বশেষ পেমেন্ট আপডেট</p></div><button class="text-action" onclick="showPage('paymentHistory')">সম্পূর্ণ পেমেন্ট হিস্ট্রি →</button></div><div class="table-wrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Method</th><th>Amount</th><th>Payment Status</th></tr></thead><tbody id="recentPayments"><tr><td colspan="5" class="empty">Loading...</td></tr></tbody></table></div></div>
 </section>
 
 <section class="page" id="addProduct">
@@ -255,7 +361,8 @@ async function loadDashboard(){
  const dueSum=due.reduce((n,x)=>n+Number(x.totalAmount||0),0);
  $("paidAmount").textContent="৳"+money(paidSum);$("unpaidAmount").textContent="৳"+money(dueSum);
  const rows=orders.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).slice(0,8);
- $("recentOrders").innerHTML=rows.length?rows.map(x=>`<tr><td>${esc(x.id.slice(0,8))}</td><td>${esc(x.customerName)}</td><td>${esc(x.phone)}</td><td>৳${money(x.totalAmount)}</td><td>${esc(x.status||"Pending")}</td></tr>`).join(""):'<tr><td colspan="5" class="empty">No orders yet.</td></tr>';
+ $("recentOrders").innerHTML=rows.length?rows.map(x=>`<tr><td><b>${esc(x.id.slice(0,8))}</b><br><small>${dateText(x.createdAt)}</small></td><td>${esc(x.customerName)}</td><td>${esc(x.phone)}</td><td><strong class="order-total">৳${money(x.totalAmount)}</strong></td><td><span class="dashboard-status">${esc(x.status||"Pending")}</span></td></tr>`).join(""):'<tr><td colspan="5" class="empty">No orders yet.</td></tr>';
+ $("recentPayments").innerHTML=rows.length?rows.map(x=>`<tr><td><b>${esc(x.id.slice(0,8))}</b></td><td>${esc(x.customerName)}</td><td>${esc(x.paymentMethod||"Not selected")}</td><td><strong class="order-total">৳${money(x.totalAmount)}</strong></td><td><span class="payment-state">${esc(x.paymentStatus||"Unpaid")}</span></td></tr>`).join(""):'<tr><td colspan="5" class="empty">No payment records yet.</td></tr>';
 }
 async function loadProducts(){const s=await db.collection("products").get();allProducts=s.docs.map(d=>({id:d.id,...d.data()}));renderProducts();}
 async function loadCategories(){const s=await db.collection("categories").get();allCategories=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));renderCategories();updateCategoryDropdown();}
