@@ -163,6 +163,43 @@ tbody tr:hover{background:#fcfaf6}
  .table-wrap{border-radius:9px}
 }
 
+
+/* Text readability improvement only — layout, colors and functionality unchanged */
+body, button, input, select, textarea {
+  font-family: "Noto Sans Bengali", "Hind Siliguri", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.menu-title {font-size:12px}
+.menu button, .menu-group summary {font-size:14px}
+.menu-sub button {font-size:13px}
+.admin-label, .muted {font-size:13px}
+.field label, .image-item label {font-size:14px}
+.field input, .field select, .field textarea {font-size:14px}
+th, td {font-size:13px}
+th {font-size:12px}
+.btn-small {font-size:13px}
+.pill, .dashboard-status, .payment-state {font-size:12px}
+.stat-card p {font-size:13px}
+.stat-card small {font-size:12px}
+.eyebrow {font-size:12px}
+.text-action {font-size:13px}
+
+@media(max-width:700px) {
+  .menu button, .menu-group summary {font-size:13px}
+  .menu-sub button {font-size:12px}
+  .admin-label, .muted {font-size:13px}
+  .page-heading h2 {font-size:22px}
+  .stat-card p {font-size:12px}
+  .stat-card small {font-size:12px}
+  .dashboard-actions .btn {font-size:13px}
+  .text-action {font-size:12px}
+  .field label, .image-item label {font-size:14px}
+  .field input, .field select, .field textarea {font-size:14px}
+  th, td {font-size:13px}
+  th {font-size:12px}
+}
+
 </style>
 </head>
 <body>
